@@ -1,24 +1,29 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
-const jobPosting = require("./jobPosting");
-const Company = require("./Company");
 
 const applicationSchema = new Schema({
-  job: [jobPosting.Schema],
-
-  purchaseDate: {
-    type: Date,
-    default: Date.now
+  job: {
+    type: Schema.Types.ObjectId,
+    ref: "jobPosting",
+    required: true,
   },
-  products: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Product'
-    }
-  ]
+  applicant: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ["Applied", "Reviewed", "Rejected", "Accepted"],
+    required: true,
+  },
+  appliedDate: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-const Application = mongoose.model('Application', applicationSchema);
+const Application = mongoose.model("Application", applicationSchema);
 
 module.exports = Application;

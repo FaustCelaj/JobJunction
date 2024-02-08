@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 const bcrypt = require("bcrypt");
-const Company = require("./Company");
 
 const userSchema = new Schema({
   username: {
@@ -27,16 +26,15 @@ const userSchema = new Schema({
     enum: ["jobseeker", "company"],
     required: true,
   },
-
   firstName: {
     type: String,
-    required: true,
+    required: false,
     trim: true,
     max_length: 50,
   },
   lastName: {
     type: String,
-    required: true,
+    required: false,
     trim: true,
     max_length: 50,
   },
