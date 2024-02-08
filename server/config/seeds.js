@@ -1,154 +1,246 @@
 const db = require('./connection');
-const { User, Product, Category } = require('../models');
+const { User, Company, jobPosting, Application } = require('../models');
 const cleanDB = require('./cleanDB');
 
 db.once('open', async () => {
-  await cleanDB('Category', 'categories');
-  await cleanDB('Product', 'products');
-  await cleanDB('User', 'users');
+  // Clean the database for User, Company, jobPosting, and Application
+  await cleanDB('User');
+  await cleanDB('Company');
+  await cleanDB('jobPosting');
+  await cleanDB('Application');
 
-  const categories = await Category.insertMany([
-    { name: 'Food' },
-    { name: 'Household Supplies' },
-    { name: 'Electronics' },
-    { name: 'Books' },
-    { name: 'Toys' }
+  // Seed Users (3 company owners, 5 jobseekers)
+  const users = await User.insertMany([
+    // Company Owners
+    {
+      username: "TechBoss",
+      email: "techboss@example.com",
+      password: "password",
+      role: "company",
+    },
+    {
+      username: "EcoCEO",
+      email: "ecoceo@example.com",
+      password: "password",
+      role: "company",
+    },
+    {
+      username: "AutoExec",
+      email: "autoexec@example.com",
+      password: "password",
+      role: "company",
+    },
+
+    // Job Seekers
+    {
+      username: "DevDana",
+      email: "devdana@example.com",
+      password: "password",
+      role: "jobseeker",
+      firstName: "Dana",
+      lastName: "Smith",
+      resumeURL: "http://example.com/resumedana.pdf",
+    },
+    {
+      username: "CodeCarlos",
+      email: "codecarlos@example.com",
+      password: "password",
+      role: "jobseeker",
+      firstName: "Carlos",
+      lastName: "Jones",
+      resumeURL: "http://example.com/resumecarlos.pdf",
+    },
+    {
+      username: "TechTina",
+      email: "techtina@example.com",
+      password: "password",
+      role: "jobseeker",
+      firstName: "Tina",
+      lastName: "Johnson",
+      resumeURL: "http://example.com/resumetina.pdf",
+    },
+    {
+      username: "SysSara",
+      email: "syssara@example.com",
+      password: "password",
+      role: "jobseeker",
+      firstName: "Sara",
+      lastName: "Williams",
+      resumeURL: "http://example.com/resumesara.pdf",
+    },
+    {
+      username: "ProgPete",
+      email: "progpeter@example.com",
+      password: "password",
+      role: "jobseeker",
+      firstName: "Peter",
+      lastName: "Brown",
+      resumeURL: "http://example.com/resumepete.pdf",
+    },
   ]);
 
-  console.log('categories seeded');
+  console.log("Users seeded");
 
-  const products = await Product.insertMany([
+  // Seed Companies (3 companies, each belonging to one of the company owners)
+  const companies = await Company.insertMany([
     {
-      name: 'Tin of Cookies',
-      description:
-        'Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
-      image: 'cookie-tin.jpg',
-      category: categories[0]._id,
-      price: 2.99,
-      quantity: 500
+      name: "Tech Innovate",
+      description: "Leading innovation in tech",
+      industry: "Professional, Scientific and Technical Services",
+      companySize: "50 - 100",
+      location: "Silicon Valley",
+      contactEmail: "contact@techinnovate.com",
+      website: "http://techinnovate.com",
+      accountOwner: users[0]._id,
     },
     {
-      name: 'Canned Coffee',
-      description:
-        'Praesent sed lacinia mauris. Nulla congue nibh magna, at feugiat nunc scelerisque quis. Donec iaculis rutrum vulputate. Suspendisse lectus sem, vulputate ac lectus sed, placerat consequat dui.',
-      image: 'canned-coffee.jpg',
-      category: categories[0]._id,
-      price: 1.99,
-      quantity: 500
+      name: "Eco Sustain",
+      description: "Sustainability in the modern world",
+      industry: "Administration, Business Support & Waste Management Services",
+      companySize: "20 - 30",
+      location: "Austin",
+      contactEmail: "contact@ecosustain.com",
+      website: "http://ecosustain.com",
+      accountOwner: users[1]._id,
     },
     {
-      name: 'Toilet Paper',
-      category: categories[1]._id,
-      description:
-        'Donec volutpat erat erat, sit amet gravida justo sodales in. Phasellus tempus euismod urna. Proin ultrices nisi ut ipsum congue, vitae porttitor libero suscipit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam lacinia a nisi non congue.',
-      image: 'toilet-paper.jpg',
-      price: 7.99,
-      quantity: 20
+      name: "Auto Drive",
+      description: "Automotive excellence and innovation",
+      industry: "Manufacturing",
+      companySize: "100+",
+      location: "Detroit",
+      contactEmail: "contact@autodrive.com",
+      website: "http://autodrive.com",
+      accountOwner: users[2]._id,
+    },
+  ]);
+
+  console.log("Companies seeded");
+
+  // Seed jobPostings
+  const jobPostings = await jobPosting.insertMany([
+    // For Tech Innovate
+    {
+      title: "Senior Frontend Developer",
+      description: "Crafting high-quality front-end experiences.",
+      location: "Remote",
+      locationType: "Remote",
+      salary: "80,000 - 100,000",
+      isActive: true,
+      company: companies[0]._id,
     },
     {
-      name: 'Handmade Soap',
-      category: categories[1]._id,
-      description:
-        'Praesent placerat, odio vel euismod venenatis, lectus arcu laoreet felis, et fringilla sapien turpis vestibulum nisl.',
-      image: 'soap.jpg',
-      price: 3.99,
-      quantity: 50
+      title: "AI Specialist",
+      description: "Develop cutting-edge AI systems.",
+      location: "On-site",
+      locationType: "In Office",
+      salary: "100,000 - 150,000",
+      isActive: true,
+      company: companies[0]._id,
+    },
+
+    // Eco Sustain / company 2 will purposefully not have any jobs so we can see how to render that case
+
+    // For Auto Drive
+    {
+      title: "Mechanical Engineer",
+      description: "Designing next-gen automotive machinery.",
+      location: "Remote",
+      locationType: "Remote",
+      salary: "80,000 - 100,000",
+      isActive: true,
+      company: companies[2]._id,
     },
     {
-      name: 'Set of Wooden Spoons',
-      category: categories[1]._id,
-      description:
-        'Vivamus ut turpis in purus pretium mollis. Donec turpis odio, semper vel interdum ut, vulputate at ex. Duis dignissim nisi vel tortor imperdiet finibus. Aenean aliquam sagittis rutrum.',
-      image: 'wooden-spoons.jpg',
-      price: 14.99,
-      quantity: 100
+      title: "Automotive Designer",
+      description: "Shaping the cars of the future.",
+      location: "Remote",
+      locationType: "Hybrid",
+      salary: "80,000 - 100,000",
+      isActive: true,
+      company: companies[2]._id,
     },
     {
-      name: 'Camera',
-      category: categories[2]._id,
-      description:
-        'Vestibulum risus metus, luctus non tortor quis, tincidunt consectetur ex. Nullam vitae lobortis ligula, ut sagittis massa. Curabitur consectetur, tellus at pulvinar venenatis, erat augue cursus erat, eu ullamcorper eros lectus ultrices ipsum. Integer rutrum, augue vitae auctor venenatis, turpis turpis elementum orci, at sagittis risus mi a leo.',
-      image: 'camera.jpg',
-      price: 399.99,
-      quantity: 30
+      title: "Quality Assurance Engineer",
+      description: "Ensuring product quality and reliability.",
+      location: "Remote",
+      locationType: "Hybrid",
+      salary: "60,000 - 80,000",
+      isActive: true,
+      company: companies[2]._id,
     },
     {
-      name: 'Tablet',
-      category: categories[2]._id,
-      description:
-        'In sodales, ipsum quis ultricies porttitor, tellus urna aliquam arcu, eget venenatis purus ligula ut nisi. Fusce ut felis dolor. Mauris justo ante, aliquet non tempus in, tempus ac lorem. Aliquam lacinia dolor eu sem eleifend ultrices. Etiam mattis metus metus. Sed ligula dui, placerat non turpis vitae, suscipit volutpat elit. Phasellus sagittis, diam elementum suscipit fringilla, libero mauris scelerisque ex, ac interdum diam erat non sapien.',
-      image: 'tablet.jpg',
-      price: 199.99,
-      quantity: 30
+      title: "Supply Chain Analyst",
+      description: "Optimizing supply chain processes.",
+      location: "Remote",
+      locationType: "Remote",
+      salary: "60,000 - 80,000",
+      isActive: true,
+      company: companies[2]._id,
     },
     {
-      name: 'Tales at Bedtime',
-      category: categories[3]._id,
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ornare diam quis eleifend rutrum. Aliquam nulla est, volutpat non enim nec, pharetra gravida augue. Donec vitae dictum neque. Pellentesque arcu lorem, fringilla non ligula ac, tristique bibendum erat. Ut a semper nibh. Quisque a mi et mi tempor ultricies. Maecenas eu ipsum eu enim hendrerit accumsan at euismod urna.',
-      image: 'bedtime-book.jpg',
-      price: 9.99,
-      quantity: 100
+      title: "Product Manager",
+      description: "Leading product development initiatives.",
+      location: "Remote",
+      locationType: "Hybrid",
+      salary: "100,000 - 150,000",
+      isActive: true,
+      company: companies[2]._id,
     },
     {
-      name: 'Spinning Top',
-      category: categories[4]._id,
-      description: 'Ut vulputate hendrerit nibh, a placerat elit cursus interdum.',
-      image: 'spinning-top.jpg',
-      price: 1.99,
-      quantity: 1000
+      title: "Sales Strategist",
+      description: "Developing sales strategies and customer relationships.",
+      location: "Remote",
+      locationType: "In Office",
+      salary: "40,000 - 60,000",
+      isActive: true,
+      company: companies[2]._id,
     },
-    {
-      name: 'Set of Plastic Horses',
-      category: categories[4]._id,
-      description:
-        'Sed a mauris condimentum, elementum enim in, rhoncus dui. Phasellus lobortis leo odio, sit amet pharetra turpis porta quis.',
-      image: 'plastic-horses.jpg',
-      price: 2.99,
-      quantity: 1000
-    },
-    {
-      name: 'Teddy Bear',
-      category: categories[4]._id,
-      description:
-        'Vestibulum et erat finibus erat suscipit vulputate sed vitae dui. Ut laoreet tellus sit amet justo bibendum ultrices. Donec vitae felis vestibulum, congue augue eu, finibus turpis.',
-      image: 'teddy-bear.jpg',
-      price: 7.99,
-      quantity: 100
-    },
-    {
-      name: 'Alphabet Blocks',
-      category: categories[4]._id,
-      description:
-        'Morbi consectetur viverra urna, eu fringilla turpis faucibus sit amet. Suspendisse potenti. Donec at dui ac sapien eleifend hendrerit vel sit amet lectus.',
-      image: 'alphabet-blocks.jpg',
-      price: 9.99,
-      quantity: 600
+  ]);
+
+  console.log("Job Postings seeded");
+
+  // Seed Applications
+  // Applications for company 1's first job
+  const applications1 = await Application.insertMany([
+    { job: jobPostings[0]._id, applicant: users[3]._id, status: "Applied" },
+    { job: jobPostings[0]._id, applicant: users[4]._id, status: "Applied" },
+  ]);
+
+  // Applications for company 1's second job
+  const applications2 = await Application.insertMany([
+    { job: jobPostings[1]._id, applicant: users[3]._id, status: "Applied" },
+    { job: jobPostings[1]._id, applicant: users[4]._id, status: "Applied" },
+    { job: jobPostings[1]._id, applicant: users[5]._id, status: "Applied" },
+  ]);
+
+  // Applications for company 3's jobs
+  const applications3 = [];
+  for (let i = 2; i < jobPostings.length; i++) {
+    for (let j = 3; j < users.length; j++) {
+      applications3.push({
+        job: jobPostings[i]._id,
+        applicant: users[j]._id,
+        status: "Applied",
+      });
     }
-  ]);
+  }
 
-  console.log('products seeded');
+  await Application.insertMany(applications3);
 
-  await User.create({
-    firstName: 'Pamela',
-    lastName: 'Washington',
-    email: 'pamela@testmail.com',
-    password: 'password12345',
-    orders: [
-      {
-        products: [products[0]._id, products[0]._id, products[1]._id]
-      }
-    ]
-  });
+  console.log("Applications seeded");
 
-  await User.create({
-    firstName: 'Elijah',
-    lastName: 'Holt',
-    email: 'eholt@testmail.com',
-    password: 'password12345'
-  });
+  // Update the company with the active job postings
+  await Company.updateOne(
+    { _id: companies[0]._id },
+    { $set: { activeJobs: [jobPostings[0]._id, jobPostings[1]._id] } }
+  );
+  await Company.updateOne(
+    { _id: companies[2]._id },
+    { $set: { activeJobs: jobPostings.slice(2).map((jp) => jp._id) } }
+  );
 
-  console.log('users seeded');
+  console.log("Company job postings updated");
 
   process.exit();
 });
