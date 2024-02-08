@@ -19,7 +19,7 @@ const companySchema = new Schema({
       "Administration, Business Support & Waste Management Services",
       "Finance and Insurance",
       "Construction",
-      "Information",
+      "Information Technology",
       "Arts, Entertainment and Recreation",
       "Healthcare and Social Assistance",
       "Educational Services",
