@@ -1,86 +1,49 @@
-const { User, Product, Category, Order } = require('../models');
-const { signToken, AuthenticationError } = require('../utils/auth');
-const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+const {
+  User,
+  ProfileInfo,
+  Company,
+  JobPosting,
+  Application,
+} = require("../models");
+const { signToken, AuthenticationError } = require("../utils/auth");
+// const stripe = require("stripe")("sk_test_4eC39HqLyjWDarjtT1zdp7dc");
 
 const resolvers = {
   Query: {
-    categories: async () => {
-      return await Category.find();
-    },
-    products: async (parent, { category, name }) => {
-      const params = {};
-
-      if (category) {
-        params.category = category;
-      }
-
-      if (name) {
-        params.name = {
-          $regex: name,
-        };
-      }
-
-      return await Product.find(params).populate('category');
-    },
-    product: async (parent, { _id }) => {
-      return await Product.findById(_id).populate('category');
-    },
     user: async (parent, args, context) => {
       if (context.user) {
-        const user = await User.findById(context.user._id).populate({
-          path: 'orders.products',
-          populate: 'category',
-        });
-
-        user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
-
+        const user = await User.findById(context.user._id).populate(
+          "profileinfo"
+        );
         return user;
       }
-
       throw AuthenticationError;
     },
-    order: async (parent, { _id }, context) => {
+    company: async (parent, args, context) => {
       if (context.user) {
-        const user = await User.findById(context.user._id).populate({
-          path: 'orders.products',
-          populate: 'category',
-        });
-
-        return user.orders.id(_id);
+        const company = await Company.findById(context.user._id);
+        return company;
       }
-
       throw AuthenticationError;
     },
-    checkout: async (parent, args, context) => {
-      const url = new URL(context.headers.referer).origin;
-      // We map through the list of products sent by the client to extract the _id of each item and create a new Order.
-      await Order.create({ products: args.products.map(({ _id }) => _id) });
-      const line_items = [];
-
-      for (const product of args.products) {
-        line_items.push({
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: product.name,
-              description: product.description,
-              images: [`${url}/images/${product.image}`],
-            },
-            unit_amount: product.price * 100,
-          },
-          quantity: product.purchaseQuantity,
-        });
+    openjobs: async (parent, args, context) => {
+      if (context.user) {
+        return JobPosting.find();
       }
-
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items,
-        mode: 'payment',
-        success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${url}/`,
-      });
-
-      return { session: session.id };
+      throw AuthenticationError;
+    },
+    companyjobs: async (parent, { companyid }, context) => {
+      if (context.user) {
+        return JobPosting.find({ company: companyid });
+      }
+      throw AuthenticationError;
+    },
+    application: async (parent, { jobid }, context) => {
+      if (context.user) {
+        const application = await Application.findById(job.jobid);
+        return application;
+      }
+      throw AuthenticationError;
     },
   },
   Mutation: {
@@ -90,15 +53,63 @@ const resolvers = {
 
       return { token, user };
     },
-    addOrder: async (parent, { products }, context) => {
+    addCompany: async (
+      parent,
+      {
+        name,
+        description,
+        industry,
+        companysize,
+        location,
+        contactemail,
+        website,
+        accountowner,
+      },
+      context
+    ) => {
       if (context.user) {
-        const order = new Order({ products });
-
-        await User.findByIdAndUpdate(context.user._id, {
-          $push: { orders: order },
+        const userid = context.user._id;
+        return Company.create({
+          name,
+          description,
+          industry,
+          companysize,
+          location,
+          contactemail,
+          website,
+          userid,
         });
+      }
+    },
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
 
-        return order;
+      if (!user) {
+        throw AuthenticationError;
+      }
+
+      const correctPw = await user.isCorrectPassword(password);
+
+      if (!correctPw) {
+        throw AuthenticationError;
+      }
+
+      const token = signToken(user);
+
+      return { token, user };
+    },
+    addProfile: async (parent, { args }, context) => {
+      if (context.user) {
+        return User.findOneAndUpdate(
+          { _id: context.user._id },
+          {
+            $addToSet: { comments: { commentText } },
+          },
+          {
+            new: true,
+            runValidators: true,
+          }
+        );
       }
 
       throw AuthenticationError;
@@ -120,23 +131,6 @@ const resolvers = {
         { $inc: { quantity: decrement } },
         { new: true }
       );
-    },
-    login: async (parent, { email, password }) => {
-      const user = await User.findOne({ email });
-
-      if (!user) {
-        throw AuthenticationError;
-      }
-
-      const correctPw = await user.isCorrectPassword(password);
-
-      if (!correctPw) {
-        throw AuthenticationError;
-      }
-
-      const token = signToken(user);
-
-      return { token, user };
     },
   },
 };
