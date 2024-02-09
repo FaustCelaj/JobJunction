@@ -1,15 +1,16 @@
-import ProductList from "../components/ProductList";
-import CategoryMenu from "../components/CategoryMenu";
-import Cart from "../components/Cart";
+// const Home = () => {
+//     return (
+//       <div className="container">
+//         <CategoryMenu />
+//         <ProductList />
+//         <Cart />
+//       </div>
+//     );
+//   };
 
-const Home = () => {
-  return (
-    <div className="container">
-      <CategoryMenu />
-      <ProductList />
-      <Cart />
-    </div>
-  );
-};
+import * as React from 'react';
+import Button from '@mui/material/Button';
 
-export default Home;
+export default function ButtonUsage() {
+  return <Button variant="contained">Hello world</Button>;
+}

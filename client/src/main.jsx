@@ -1,15 +1,15 @@
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import './index.css';
+
 
 import App from './App.jsx';
 import Home from './pages/Home';
-import Detail from './pages/Detail';
-import NoMatch from './pages/NoMatch';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import OrderHistory from './pages/OrderHistory';
-import Success from './pages/Success';
+import Search from './pages/Search.jsx';
+import Profile from './pages/Profile.jsx'
+import Login from './pages/Login.jsx';
+import SignUp from './pages/SignUp.jsx';
+import NoMatch from './pages/NoMatch.jsx'
+
 
 const router = createBrowserRouter([
   {
@@ -25,16 +25,13 @@ const router = createBrowserRouter([
         element: <Login />
       }, {
         path: '/signup',
-        element: <Signup />
+        element: <SignUp />
       }, {
-        path: '/orderHistory',
-        element: <OrderHistory />
+        path: '/search',
+        element: <Search />
       }, {
-        path: '/products/:id',
-        element: <Detail />
-      }, {
-        path: '/success',
-        element: <Success />
+        path: '/profile',
+        element: <Profile />
       },
     ],
   },

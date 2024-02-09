@@ -1,87 +1,124 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
-import Auth from '../utils/auth';
-import { ADD_USER } from '../utils/mutations';
+import RoleSelection from '../components/authentication/roleSelection';
 
-function Signup(props) {
-  const [formState, setFormState] = useState({ email: '', password: '' });
-  const [addUser] = useMutation(ADD_USER);
+const SignUp = () => {
+  // State to hold the selected role
+  const [role, setRole] = useState('jobseeker');
 
-  const handleFormSubmit = async (event) => {
+  // State for holding job seeker sign-up form data
+  const [jobSeekerName, setJobSeekerName] = useState('');
+  const [jobSeekerEmail, setJobSeekerEmail] = useState('');
+  const [jobSeekerPassword, setJobSeekerPassword] = useState('');
+  // ... other job seeker specific state variables
+
+  // State for holding company sign-up form data
+  const [companyName, setCompanyName] = useState('');
+  const [companyEmail, setCompanyEmail] = useState('');
+  const [companyPassword, setCompanyPassword] = useState('');
+  // ... other company specific state variables
+
+  // Function to handle the form submission for both job seekers and companies
+  const handleSubmit = (event) => {
     event.preventDefault();
-    const mutationResponse = await addUser({
-      variables: {
-        email: formState.email,
-        password: formState.password,
-        firstName: formState.firstName,
-        lastName: formState.lastName,
-      },
-    });
-    const token = mutationResponse.data.addUser.token;
-    Auth.login(token);
-  };
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormState({
-      ...formState,
-      [name]: value,
-    });
+    if (role === 'jobseeker') {
+      // Sign-up logic for job seeker
+      console.log('Job Seeker Sign Up:', { jobSeekerName, jobSeekerEmail, jobSeekerPassword });
+      // Handle the job seeker sign-up logic here
+    } else {
+      // Sign-up logic for company
+      console.log('Company Sign Up:', { companyName, companyEmail, companyPassword });
+      // Handle the company sign-up logic here
+    }
   };
 
   return (
-    <div className="container my-1">
-      <Link to="/login">← Go to Login</Link>
+    <div className="signup-container">
+      <h2>Sign Up</h2>
+      <RoleSelection role={role} setRole={setRole} />
+      
+      <form onSubmit={handleSubmit}>
+        {role === 'jobseeker' && (
+          <>
+            <div className="form-group">
+              <label htmlFor="jobSeekerName">Name:</label>
+              <input
+                type="text"
+                id="jobSeekerName"
+                value={jobSeekerName}
+                onChange={(e) => setJobSeekerName(e.target.value)}
+                required
+                placeholder="Your Name"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="jobSeekerEmail">Email:</label>
+              <input
+                type="email"
+                id="jobSeekerEmail"
+                value={jobSeekerEmail}
+                onChange={(e) => setJobSeekerEmail(e.target.value)}
+                required
+                placeholder="Your Email"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="jobSeekerPassword">Password:</label>
+              <input
+                type="password"
+                id="jobSeekerPassword"
+                value={jobSeekerPassword}
+                onChange={(e) => setJobSeekerPassword(e.target.value)}
+                required
+                placeholder="Create a Password"
+              />
+            </div>
+          </>
+        )}
+        
+        {role === 'company' && (
+          <>
+            <div className="form-group">
+              <label htmlFor="companyName">Company Name:</label>
+              <input
+                type="text"
+                id="companyName"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+                required
+                placeholder="Your Company's Name"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="companyEmail">Email:</label>
+              <input
+                type="email"
+                id="companyEmail"
+                value={companyEmail}
+                onChange={(e) => setCompanyEmail(e.target.value)}
+                required
+                placeholder="Company Email"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="companyPassword">Password:</label>
+              <input
+                type="password"
+                id="companyPassword"
+                value={companyPassword}
+                onChange={(e) => setCompanyPassword(e.target.value)}
+                required
+                placeholder="Create a Password"
+              />
+            </div>
+          </>
+        )}
 
-      <h2>Signup</h2>
-      <form onSubmit={handleFormSubmit}>
-        <div className="flex-row space-between my-2">
-          <label htmlFor="firstName">First Name:</label>
-          <input
-            placeholder="First"
-            name="firstName"
-            type="firstName"
-            id="firstName"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="flex-row space-between my-2">
-          <label htmlFor="lastName">Last Name:</label>
-          <input
-            placeholder="Last"
-            name="lastName"
-            type="lastName"
-            id="lastName"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="flex-row space-between my-2">
-          <label htmlFor="email">Email:</label>
-          <input
-            placeholder="youremail@test.com"
-            name="email"
-            type="email"
-            id="email"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="flex-row space-between my-2">
-          <label htmlFor="pwd">Password:</label>
-          <input
-            placeholder="******"
-            name="password"
-            type="password"
-            id="pwd"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="flex-row flex-end">
-          <button type="submit">Submit</button>
-        </div>
+        <button type="submit" className="signup-button">
+          {role === 'jobseeker' ? 'Sign Up as Job Seeker' : 'Sign Up as Company'}
+        </button>
       </form>
     </div>
   );
-}
+};
 
-export default Signup;
+export default SignUp;
