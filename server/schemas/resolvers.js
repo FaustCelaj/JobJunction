@@ -1,23 +1,12 @@
-const {
-  User,
-  ProfileInfo,
-  Company,
-  JobPosting,
-  Application,
-} = require("../models");
+const { User, Company, jobPosting, Application } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
 // const stripe = require("stripe")("sk_test_4eC39HqLyjWDarjtT1zdp7dc");
 
 const resolvers = {
   Query: {
-    user: async (parent, args, context) => {
-      if (context.user) {
-        const user = await User.findById(context.user._id).populate(
-          "profileinfo"
-        );
-        return user;
-      }
-      throw AuthenticationError;
+    user: async () => {
+      const users = await User.find();
+      return users;
     },
     company: async (parent, args, context) => {
       if (context.user) {
@@ -28,13 +17,13 @@ const resolvers = {
     },
     openjobs: async (parent, args, context) => {
       if (context.user) {
-        return JobPosting.find();
+        return jobPosting.find();
       }
       throw AuthenticationError;
     },
     companyjobs: async (parent, { companyid }, context) => {
       if (context.user) {
-        return JobPosting.find({ company: companyid });
+        return jobPosting.find({ company: companyid });
       }
       throw AuthenticationError;
     },
@@ -53,34 +42,14 @@ const resolvers = {
 
       return { token, user };
     },
-    addCompany: async (
-      parent,
-      {
-        name,
-        description,
-        industry,
-        companysize,
-        location,
-        contactemail,
-        website,
-        accountowner,
-      },
-      context
-    ) => {
-      if (context.user) {
-        const userid = context.user._id;
-        return Company.create({
-          name,
-          description,
-          industry,
-          companysize,
-          location,
-          contactemail,
-          website,
-          userid,
-        });
-      }
+
+    addCompany: async (parent, args, context) => {
+      // if (context.user) {
+      return Company.create(args);
+      // }
+      // throw AuthenticationError;
     },
+
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 
@@ -98,39 +67,32 @@ const resolvers = {
 
       return { token, user };
     },
-    addProfile: async (parent, { args }, context) => {
+
+    addJobposting: async (parent, { args }, context) => {
       if (context.user) {
-        return User.findOneAndUpdate(
-          { _id: context.user._id },
-          {
-            $addToSet: { comments: { commentText } },
-          },
-          {
-            new: true,
-            runValidators: true,
-          }
+        return jobPosting.create({ args });
+      }
+      throw AuthenticationError;
+    },
+    addApplication: async (parent, { job, applicant, status }, context) => {
+      if (context.user) {
+        return Application.create({ job, applicant, status });
+      }
+      throw AuthenticationError;
+    },
+
+    updateJobposting: async (
+      parent,
+      { id, title, description, location, salary, locationType }
+    ) => {
+      if (context.user) {
+        return jobPosting.findByIdAndUpdate(
+          id,
+          { title, description, location, salary, locationType },
+          { new: true }
         );
       }
-
       throw AuthenticationError;
-    },
-    updateUser: async (parent, args, context) => {
-      if (context.user) {
-        return await User.findByIdAndUpdate(context.user._id, args, {
-          new: true,
-        });
-      }
-
-      throw AuthenticationError;
-    },
-    updateProduct: async (parent, { _id, quantity }) => {
-      const decrement = Math.abs(quantity) * -1;
-
-      return await Product.findByIdAndUpdate(
-        _id,
-        { $inc: { quantity: decrement } },
-        { new: true }
-      );
     },
   },
 };

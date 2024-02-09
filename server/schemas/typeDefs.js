@@ -5,37 +5,29 @@ const typeDefs = `
     email:String
     password:String
     role:String
-    profileinfo:ProfileInfo
+    firstName:String
+    lastName:String
+    resumeURL:String
     company:Company
-  }
-  type ProfileInfo
-  {
-    _id:ID
-    firstname:String
-    lastname:String
-    skills:String
-    resume:String
   }
   type Company {
     _id: ID
     name: String
     description: String
     industry: String
-    companysize: String
+    companySize: String
     location:String
-    contactemail:String
+    contactEmail:String
     website:String
-    activejobs:[JobPosting]
-    accountowner:User
+    accountOwner:User
   }
   type JobPosting {
     _id: ID
     title: String
     description: String
     location:String
-    salary:Float
-    remote:String
-    posteddate:String
+    salary:String
+    locationType:String
     company:Company
   }
   type Application {
@@ -53,21 +45,17 @@ const typeDefs = `
   type Query {
     user: User
     company:Company
-    // profileinfo:ProfileInfo
     openjobs(title:String,location:String,company:String,remote:String): [JobPosting]
     companyjobs(companyid: ID!): [JobPosting]
     application(jobid: ID!):[Application]
   }
-
   type Mutation {
     addUser(username: String!,email: String!, password: String!, role: String!,company:String): Auth
     addCompany(name: String!,description: String, industry: String, companysize: String,location:String,contactemail:String,website:String,accountowner:ID!): Auth
     login(email: String!, password: String!): Auth
-    addProfile(firstname:String!,lastname:String!,skills:String!,resume:String): User
-    addJobposting(title:String!,description:String,location:String,salary:Float,remote:String,posteddate:String,company:ID!)
-    addApplication(job:ID!,applicant:ID!,resume:String,status:String!,applieddate:String)
-    updateProfile(_id: ID!,skills:String!,resume:String): User
-    updateJobposting(_id: ID!,title:String!,description:String,location:String,salary:Float,remote:String,posteddate:String)
+    addJobposting(title:String!,description:String,location:String,salary:String,locationType:String,isActive:String,company:ID!):JobPosting
+    updateJobposting(_id: ID!,title:String,description:String,location:String,salary:String,locationType:String):JobPosting
+    addApplication(job:String, applicant:String, status:String):Application
     }
 `;
 
