@@ -1,46 +1,52 @@
+const { assertValidExecutionArguments } = require("graphql/execution/execute");
 const { User, Company, jobPosting, Application } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
 // const stripe = require("stripe")("sk_test_4eC39HqLyjWDarjtT1zdp7dc");
 
 const resolvers = {
   Query: {
-    user: async () => {
-      const users = await User.find();
-      return users;
+    //Check the usability of this User and Company queries , remove it not used
+    // user: async () => {
+    //   const users = await User.find();
+    //   console.log(users);
+    //   return users;
+    // },
+    // company: async (parent, args) => {
+    //   // if (context.user) {
+    //   const company = await Company.find();
+    //   return company;
+    //   // }
+    //   // throw AuthenticationError;
+    // },
+    openjobs: async (parent, args) => {
+      // if (context.user) {
+      return jobPosting.find().populate("company");
+      // }
+      // throw AuthenticationError;
     },
-    company: async (parent, args, context) => {
-      if (context.user) {
-        const company = await Company.findById(context.user._id);
-        return company;
-      }
-      throw AuthenticationError;
+    companyjobs: async (parent, { companyid }) => {
+      // if (context.user) {
+      return jobPosting.find({ company: companyid }).populate("company");
+      // }
+      // throw AuthenticationError;
     },
-    openjobs: async (parent, args, context) => {
-      if (context.user) {
-        return jobPosting.find();
-      }
-      throw AuthenticationError;
-    },
-    companyjobs: async (parent, { companyid }, context) => {
-      if (context.user) {
-        return jobPosting.find({ company: companyid });
-      }
-      throw AuthenticationError;
-    },
-    application: async (parent, { jobid }, context) => {
-      if (context.user) {
-        const application = await Application.findById(job.jobid);
-        return application;
-      }
-      throw AuthenticationError;
+    application: async (parent, { jobid }) => {
+      // if (context.user) {
+      const application = await Application.find({ job: jobid })
+        .populate("job")
+        .populate("applicant");
+      return application;
+      // }
+      // throw AuthenticationError;
     },
   },
   Mutation: {
     addUser: async (parent, args) => {
-      const user = await User.create(args);
-      const token = signToken(user);
+      return User.create(args);
+      // const user = await User.create(args);
+      // const token = signToken(user);
 
-      return { token, user };
+      // return { token, user };
     },
 
     addCompany: async (parent, args, context) => {
@@ -68,32 +74,76 @@ const resolvers = {
       return { token, user };
     },
 
-    addJobposting: async (parent, { args }, context) => {
-      if (context.user) {
-        return jobPosting.create({ args });
-      }
-      throw AuthenticationError;
+    addJobposting: async (parent, args) => {
+      // if (context.user) {
+      return jobPosting.create(args);
+      // }
+      // throw AuthenticationError;
     },
-    addApplication: async (parent, { job, applicant, status }, context) => {
-      if (context.user) {
-        return Application.create({ job, applicant, status });
-      }
-      throw AuthenticationError;
+    addApplication: async (parent, args) => {
+      // if (context.user) {
+      return Application.create(args);
+      // }
+      // throw AuthenticationError;
     },
 
-    updateJobposting: async (
-      parent,
-      { id, title, description, location, salary, locationType }
-    ) => {
-      if (context.user) {
-        return jobPosting.findByIdAndUpdate(
-          id,
-          { title, description, location, salary, locationType },
-          { new: true }
-        );
-      }
-      throw AuthenticationError;
+    updateJobposting: async (parent, args) => {
+      // if (context.user) {
+      console.log(args);
+      return jobPosting.findOneAndUpdate(
+        { _id: args._id },
+        {
+          $set: {
+            title: args.title,
+            description: args.description,
+            location: args.location,
+            salary: args.salary,
+            locationType: args.locationType,
+            isActive: args.isActive,
+          },
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+      // }
+      // throw AuthenticationError;
     },
+
+    updateUser: async (parent, args) => {
+      // if (context.user) {
+      console.log(args);
+      return User.findOneAndUpdate(
+        { _id: args._id },
+        {
+          $set: {
+            email: args.email,
+            password: args.password,
+            role: args.role,
+            firstName: args.firstName,
+            lastName: args.lastName,
+            resumeURL: args.resumeURL,
+          },
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+      // }
+      // throw AuthenticationError;
+    },
+    //  Update user using token value instead of id
+    // updateUser: async (parent, args, context) => {
+    //   if (context.user) {
+    //     return User.findByIdAndUpdate(context.user.id, args, {
+    //       new: true,
+    //     });
+    //   }
+
+    //   throw AuthenticationError;
+    // },
   },
 };
 
