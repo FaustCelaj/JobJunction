@@ -18,7 +18,7 @@ const jobPostingSchema = new Schema({
   locationType: {
     type: String,
     enum: ["In Office", "Hybrid", "Remote"],
-    required: true
+    required: true,
   },
   salary: {
     type: String,
@@ -44,7 +44,8 @@ const jobPostingSchema = new Schema({
   company: { 
     type: Schema.Types.ObjectId, 
     ref: "Company", 
-    required: true },
+    required: true 
+  },
 });
 
 const jobPosting = mongoose.model("jobPosting", jobPostingSchema);
