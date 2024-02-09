@@ -1,69 +1,44 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
-export const QUERY_PRODUCTS = gql`
-  query getProducts($category: ID) {
-    products(category: $category) {
+export const QUERY_ALLJOBS = gql`
+  query getAllJobs() {
+    openjobs() {
       _id
-      name
+      title
       description
-      price
-      quantity
-      image
-      category {
-        _id
-      }
-    }
-  }
-`;
-
-export const QUERY_CHECKOUT = gql`
-  query getCheckout($products: [ProductInput]) {
-    checkout(products: $products) {
-      session
-    }
-  }
-`;
-
-export const QUERY_ALL_PRODUCTS = gql`
-  {
-    products {
-      _id
-      name
-      description
-      price
-      quantity
-      category {
+      location
+      locationType
+      salary
+      isActive
+      company {
         name
       }
     }
   }
 `;
-
-export const QUERY_CATEGORIES = gql`
-  {
-    categories {
+export const QUERY_COMPANYJOBS = gql`
+  query getCompanyJobs($companyid: ID!) {
+    companyjobs(companyid: $companyid) {
       _id
-      name
+      title
+      description
+      location
+      locationType
+      salary
+      isActive
     }
   }
 `;
-
-export const QUERY_USER = gql`
-  {
-    user {
-      firstName
-      lastName
-      orders {
-        _id
-        purchaseDate
-        products {
-          _id
-          name
-          description
-          price
-          quantity
-          image
-        }
+export const QUERY_APPLICATION = gql`
+  query getCompanyJobs($jobid: ID!) {
+    companyjobs(jobid: $jobid) {
+      _id
+      status
+      appliedDate
+      applicant {
+        firstName
+        lastName
+        resumeURL
       }
     }
   }
