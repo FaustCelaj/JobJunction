@@ -4,7 +4,7 @@ import RoleSelection from './roleSelection';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('jobseeker'); // Default to 'jobseeker'
+  const [role, setRole] = useState('jobseeker'); 
 
   // Function to handle the form submission
   const handleSubmit = (event) => {

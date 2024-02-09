@@ -9,13 +9,13 @@ const SignUp = () => {
   const [jobSeekerName, setJobSeekerName] = useState('');
   const [jobSeekerEmail, setJobSeekerEmail] = useState('');
   const [jobSeekerPassword, setJobSeekerPassword] = useState('');
-  // ... other job seeker specific state variables
+
 
   // State for holding company sign-up form data
   const [companyName, setCompanyName] = useState('');
   const [companyEmail, setCompanyEmail] = useState('');
   const [companyPassword, setCompanyPassword] = useState('');
-  // ... other company specific state variables
+  
 
   // Function to handle the form submission for both job seekers and companies
   const handleSubmit = (event) => {
@@ -23,11 +23,11 @@ const SignUp = () => {
     if (role === 'jobseeker') {
       // Sign-up logic for job seeker
       console.log('Job Seeker Sign Up:', { jobSeekerName, jobSeekerEmail, jobSeekerPassword });
-      // Handle the job seeker sign-up logic here
+  
     } else {
       // Sign-up logic for company
       console.log('Company Sign Up:', { companyName, companyEmail, companyPassword });
-      // Handle the company sign-up logic here
+  
     }
   };
 
