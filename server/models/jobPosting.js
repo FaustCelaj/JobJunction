@@ -41,12 +41,13 @@ const jobPostingSchema = new Schema({
   },
 
   // will reference the company
-  company: {
-    type: Schema.Types.ObjectId,
-    ref: "Company",
-    required: true,
+  company: { 
+    type: Schema.Types.ObjectId, 
+    ref: "Company", 
+    required: true 
   },
 });
+
 const jobPosting = mongoose.model("jobPosting", jobPostingSchema);
 
 module.exports = jobPosting;
