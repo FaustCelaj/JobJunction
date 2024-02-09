@@ -1,6 +1,6 @@
 import React from 'react';
 import EditableFormModal from './formModal';
-import JobPostingForm from './JobPostingForm';
+import JobPostingForm from '../job/JobPostingForm';
 
 const CompanyOwnerProfile = () => {
   return (

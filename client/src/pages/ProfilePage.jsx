@@ -1,5 +1,5 @@
-import JobSeekerProfile from './jobseekerprofile';
-import CompanyOwnerProfile from './companyownerprofile';
+import JobSeekerProfile from '../components/profile/jobseekerprofile';
+import CompanyOwnerProfile from '../components/profile/companyownerprofile';
 
 const ProfilePage = ({ userRole }) => {
   return (
