@@ -51,7 +51,7 @@ const typeDefs = `
     application(jobid: ID!):[Application]
   }
   type Mutation {
-    addUser(username: String!,email: String!, password: String!, role: String!,firstName:String,lastName:String,resumeURL:String,company:ID): User
+    addUser(username: String!,email: String!, password: String!, role: String!,firstName:String,lastName:String,resumeURL:String,company:ID): Auth
     addCompany(name: String!,description: String, industry: String!, companySize: String!,location:String!,contactEmail:String!,website:String!,accountOwner:ID!): Company
     login(email: String!, password: String!): Auth
     addJobposting(title:String!,description:String!,location:String!,locationType:String!,salary:String!,isActive:String!,company:ID!):JobPosting
