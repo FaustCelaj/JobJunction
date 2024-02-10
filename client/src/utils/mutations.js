@@ -31,6 +31,7 @@ export const ADD_USER = gql`
     }
   }
 `;
+
 export const UPDATE_USER = gql`
   mutation updateUser(
     $_id: String!
@@ -49,8 +50,11 @@ export const UPDATE_USER = gql`
       firstName: $firstName
       lastName: $lastName
       resumeURL: $resumeURL
-    )     
-  }
+    ) {
+      firstName
+      lastName
+      resumeURL
+    }
   }
 `;
 
@@ -72,7 +76,9 @@ export const ADD_COMPANY = gql`
       location: $location
       contactEmail: $contactEmail
       website: $website
-    ) 
+    ) {
+      name
+      location
     }
   }
 `;
@@ -95,47 +101,44 @@ export const ADD_JOBPOSTING = gql`
       salary: $salary
       isActive: $isActive
       company: $company
-    ) 
+    ) {
+      title
+      salary
     }
   }
 `;
 
 export const UPDATE_JOBPOSTING = gql`
-mutation updateJobposting(
-  $_id: ID!
-  $title: String!
-  $description: String!
-  $location: String!
-  $locationType: String!
-  $salary: String!
-  $isActive: String!
-  $company: ID!
-) {
-  updateJobposting(
-    _id: $_id
-    title: $title
-    description: $description
-    location: $location
-    locationType: $locationType
-    salary: $salary
-    isActive: $isActive
-    company: $company
-  ) 
+  mutation updateJobposting(
+    $_id: ID!
+    $title: String!
+    $description: String!
+    $location: String!
+    $locationType: String!
+    $salary: String!
+    $isActive: String!
+    $company: ID!
+  ) {
+    updateJobposting(
+      _id: $_id
+      title: $title
+      description: $description
+      location: $location
+      locationType: $locationType
+      salary: $salary
+      isActive: $isActive
+      company: $company
+    ) {
+      title
+      salary
+    }
   }
-}
 `;
 
 export const ADD_APPLICATION = gql`
-  mutation addApplication(
-    $job: ID!
-    $applicant: ID!
-    $status: String!
-    ) {
-    addApplication(
-      job: $job
-      applicant: $applicant
-      status: $status
-    ) 
+  mutation addApplication($job: ID!, $applicant: ID!, $status: String!) {
+    addApplication(job: $job, applicant: $applicant, status: $status) {
+      status
     }
   }
 `;

@@ -6,7 +6,7 @@ const RoleSelection = ({ role, setRole }) => {
           type="radio"
           name="role"
           value="jobseeker"
-          checked={role === 'jobseeker'}
+          checked={role === "jobseeker"}
           onChange={(e) => setRole(e.target.value)}
         />
         Job Seeker
@@ -16,7 +16,7 @@ const RoleSelection = ({ role, setRole }) => {
           type="radio"
           name="role"
           value="company"
-          checked={role === 'company'}
+          checked={role === "company"}
           onChange={(e) => setRole(e.target.value)}
         />
         Company
