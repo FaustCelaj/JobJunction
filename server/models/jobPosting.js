@@ -20,6 +20,31 @@ const jobPostingSchema = new Schema({
     enum: ["In Office", "Hybrid", "Remote"],
     required: true,
   },
+  jobFunctions: {
+    type: String,
+    enum: [
+      "Administrative",
+      "Arts & Design",
+      "Business",
+      "Customer Services & Support",
+      "Education",
+      "Engineering",
+      "Finance & Accounting",
+      "Healthcare",
+      "Human Resources",
+      "Information Technology",
+      "Marketing",
+      "Military & Protective Services",
+      "Operations",
+      "Other",
+      "Product & Project Management",
+      "Research & Science",
+      "Retail & Food Services",
+      "Sales",
+      "Skilled Labor & Manufacturing",
+      "Transportation",
+    ],
+  },
   salary: {
     type: String,
     enum: [
@@ -41,10 +66,10 @@ const jobPostingSchema = new Schema({
   },
 
   // will reference the company
-  company: { 
-    type: Schema.Types.ObjectId, 
-    ref: "Company", 
-    required: true 
+  company: {
+    type: Schema.Types.ObjectId,
+    ref: "Company",
+    required: true,
   },
 });
 
