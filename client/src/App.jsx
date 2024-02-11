@@ -6,7 +6,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-
+// import StickyFooter from './components/StickyFooter';
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
 // import { StoreProvider } from './utils/GlobalState';
 
@@ -35,6 +35,7 @@ function App() {
       <div>
         <ResponsiveAppBar />
         <Outlet />
+        {/* <StickyFooter /> */}
       </div>
     </ApolloProvider>
   );
