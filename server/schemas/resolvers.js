@@ -42,11 +42,9 @@ const resolvers = {
   },
   Mutation: {
     addUser: async (parent, args) => {
-      return User.create(args);
-      // const user = await User.create(args);
-      // const token = signToken(user);
-
-      // return { token, user };
+      const user = await User.create(args);
+      const token = signToken(user);
+      return { token, user };
     },
 
     addCompany: async (parent, args, context) => {
