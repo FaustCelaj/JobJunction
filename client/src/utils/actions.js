@@ -1,3 +1,19 @@
+// OURS 
+export const QUERY_ALLJOBS = "QUERY_ALLJOBS";
+export const QUERY_COMPANYJOBS = "QUERY_COMPANYJOBS";
+export const QUERY_APPLICATION = "QUERY_APPLICATION";
+
+
+
+
+
+
+
+
+
+
+
+// OLD
 export const UPDATE_PRODUCTS = "UPDATE_PRODUCTS";
 
 export const ADD_TO_CART = "ADD_TO_CART";
@@ -9,3 +25,5 @@ export const TOGGLE_CART = "TOGGLE_CART";
 
 export const UPDATE_CATEGORIES = "UPDATE_CATEGORIES";
 export const UPDATE_CURRENT_CATEGORY = "UPDATE_CURRENT_CATEGORY";
+
+
