@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { useHistory } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom'; 
 
 const Logout = ({ onLogout }) => {
-  const history = useHistory(); 
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     // Performs the logout operations
@@ -13,12 +13,21 @@ const Logout = ({ onLogout }) => {
     }
 
     // Redirects the user to the login page after logout
-    setTimeout(() => history.push('/login'), 1000); // waits 1 second before redirecting
-  }, [onLogout, history]);
+    setTimeout(() => navigate('/'), 1000); // waits 1 second before redirecting
+  }, [onLogout, navigate]);
 
   // Renders a confirmation message
   return (
-    <div>Logging out...</div>
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '70vh',
+      fontSize: '20px',
+      //fontWeight: 'bold',
+    }}>
+      Logging out...
+    </div>
   );
 };
 

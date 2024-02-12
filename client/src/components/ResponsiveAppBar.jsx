@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link as RouterLink } from 'react-router-dom'; // Import RouterLink for navigation
+import { Link as RouterLink, useNavigate } from 'react-router-dom'; // Import useNavigate for programmatic navigation
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -14,13 +14,13 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 
-
 const pages = ['Home', 'Search'];
 const settings = ['Profile', 'Sign In', 'Logout'];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate(); // Hook for programmatic navigation
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -33,8 +33,17 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (setting) => {
     setAnchorElUser(null);
+    if (setting === 'Profile') {
+      navigate('./'); // Navigate to Profile page
+    } else if (setting === 'Sign In') {
+      navigate('/signin'); // Navigate to Sign In page
+    } else if (setting === 'Logout') {
+      // Perform logout logic here
+      console.log('Logout logic here');
+      navigate('/'); // Redirect to home after logout
+    }
   };
 
   return (
