@@ -10,97 +10,8 @@ import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
 import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
 import Grid from "@mui/material/Grid";
 
-// need to pass data from the search query to be able to display data dynamically
-const jobListingsData = [
-  {
-    id: 1,
-    title: "Senior Frontend Developer",
-    description: "Crafting high-quality front-end experiences.",
-    location: "Remote",
-    locationType: "Remote",
-    jobFunction: "Engineering",
-    salary: "80,000 - 100,000",
-    isActive: true,
-    company: "Tech Innovate",
-  },
-  {
-    id: 2,
-    title: "AI Specialist",
-    description: "Develop cutting-edge AI systems.",
-    location: "On-site",
-    locationType: "In Office",
-    jobFunction: "Research & Science",
-    salary: "100,000 - 150,000",
-    isActive: true,
-    company: "Tech Innovate",
-  },
-  {
-    id: 3,
-    title: "Mechanical Engineer",
-    description: "Designing next-gen automotive machinery.",
-    location: "Remote",
-    locationType: "Remote",
-    jobFunction: "Research & Science",
-    salary: "80,000 - 100,000",
-    isActive: true,
-    company: "Auto Drive",
-  },
-  {
-    id: 4,
-    title: "Automotive Designer",
-    description: "Shaping the cars of the future.",
-    location: "Remote",
-    locationType: "Hybrid",
-    jobFunction: "Other",
-    salary: "80,000 - 100,000",
-    isActive: true,
-    company: "Auto Drive",
-  },
-  {
-    id: 5,
-    title: "Quality Assurance Engineer",
-    description: "Ensuring product quality and reliability.",
-    location: "Remote",
-    locationType: "Hybrid",
-    jobFunction: "Engineering",
-    salary: "60,000 - 80,000",
-    isActive: true,
-    company: "Auto Drive",
-  },
-  {
-    id: 6,
-    title: "Supply Chain Analyst",
-    description: "Optimizing supply chain processes.",
-    location: "Remote",
-    locationType: "Remote",
-    jobFunction: "Operations",
-    salary: "60,000 - 80,000",
-    isActive: true,
-    company: "Auto Drive",
-  },
-  {
-    id: 7,
-    title: "Product Manager",
-    description: "Leading product development initiatives.",
-    location: "Remote",
-    locationType: "Hybrid",
-    jobFunction: "Product & Project Management",
-    salary: "100,000 - 150,000",
-    isActive: true,
-    company: "Auto Drive",
-  },
-  {
-    id: 8,
-    title: "Sales Strategist",
-    description: "Developing sales strategies and customer relationships.",
-    location: "Remote",
-    locationType: "In Office",
-    jobFunction: "Sales",
-    salary: "40,000 - 60,000",
-    isActive: true,
-    company: "Auto Drive",
-  },
-];
+import { useQuery } from "@apollo/client";
+import { QUERY_ALLJOBS } from "../../utils/queries";
 
 const JobCard = ({ job }) => (
   <Card variant="outlined" sx={styles.card}>
@@ -160,11 +71,30 @@ const styles = {
   },
 };
 
-const JobListings = () => {
+const JobListings = ({ searchTerm, category }) => {
+  console.log({ searchTerm, category });
+
+  const { loading, error, data } = useQuery(QUERY_ALLJOBS, {
+    variables: { title: searchTerm, jobFunction: category },
+  });
+
+  if (loading) return <p>Loading...</p>;
+
+  const jobs = data?.openjobs || [];
+  console.log(jobs);
+  console.log(error);
+
+
+  // const { loading, data } = useQuery(QUERY_ALLJOBS, {
+  //   variables: { title: searchTerm, jobFunction: category },
+  // });
+  // const openjobs = data?.openjobs || {};
+  // console.log(openjobs);
+  
   return (
     <Grid container spacing={2} justifyContent="center">
-      {jobListingsData.map((job) => (
-        <Grid item xs={12} sm={6} lg={3} key={job.id}>
+      {jobs.map((job) => (
+        <Grid item xs={12} sm={6} lg={3} key={job._id}>
           <JobCard job={job} />
         </Grid>
       ))}

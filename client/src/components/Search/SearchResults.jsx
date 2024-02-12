@@ -11,21 +11,21 @@ const SearchResults = () => {
     <>
       <Box>
         {/* on page load, this would be if someone hits search in the menu and first loads the page */}
-        <Typography>
+        {/* <Typography>
           Use the search bar above to get started. Try " Regional Manager" in
           "Sales".
-        </Typography>
+        </Typography> */}
         {/* after a successful search, this can be when the search button is hit on the bar. can also be from the homepage or in the search page itself*/}
         <Typography>
           Showing Results for "{searchTerm}" in "{category}"
         </Typography>
         {/* no results */}
-        <Typography>
+        {/* <Typography>
           No Results found for "{searchTerm}" in "{category}. Please Try again.
-        </Typography>
+        </Typography> */}
       </Box>
 
-      <JobListings />
+      <JobListings searchTerm={searchTerm} category={category}/>
     </>
   );
 };
