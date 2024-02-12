@@ -30,7 +30,7 @@ const HowItWorks = () => {
   return (
     <div style={{ flexGrow: 1, padding: theme.spacing(3) }}>
       <Typography variant="h4" align="center" gutterBottom style={{ marginBottom: theme.spacing(6) }}>
-        How JobJunction works
+        How JobJunction works 
       </Typography>
       <Grid
         container

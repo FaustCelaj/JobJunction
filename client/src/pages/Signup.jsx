@@ -3,9 +3,9 @@ import RoleSelection from "../components/authentication/roleSelection";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
 import { ADD_USER } from "../utils/mutations";
+import LockIcon from '@mui/icons-material/Lock';
 
 const SignUp = () => {
-  // State to hold the selected role
   const [role, setRole] = useState("jobseeker");
   const [jobSeekerState, setjobSeekerState] = useState({
     email: "",
@@ -18,26 +18,13 @@ const SignUp = () => {
 
   const [addUser] = useMutation(ADD_USER);
 
-  // State for holding job seeker sign-up form data
-  // const [jobSeekerName, setJobSeekerName] = useState("");
-  // const [jobSeekerEmail, setJobSeekerEmail] = useState("");
-  // const [jobSeekerPassword, setJobSeekerPassword] = useState("");
-
-  // State for holding company sign-up form data
-  // const [companyName, setCompanyName] = useState("");
-  // const [companyEmail, setCompanyEmail] = useState("");
-  // const [companyPassword, setCompanyPassword] = useState("");
-
-  // Function to handle the form submission for both job seekers and companies
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (role === "jobseeker") {
-      // Sign-up logic for job seeker
       const mutationResponse = await addUser({
         variables: {
-          username: jobSeekerState.jobSeekerName,
-          email: jobSeekerState.jobSeekerEmail,
-          password: jobSeekerState.jobSeekerPassword,
+          email: jobSeekerState.email,
+          password: jobSeekerState.password,
           role: "jobseeker",
         },
       });
@@ -45,13 +32,10 @@ const SignUp = () => {
       Auth.login(token);
       console.log("User Added and Json token created");
     } else {
-      // Sign-up logic for company
-
       const mutationResponse = await addUser({
         variables: {
-          username: CompanyState.companyName,
-          email: CompanyState.companyEmail,
-          password: CompanyState.companyPassword,
+          email: CompanyState.email,
+          password: CompanyState.password,
           role: "company",
         },
       });
@@ -60,7 +44,8 @@ const SignUp = () => {
       console.log("Company Added and Json token created");
     }
   };
-  const handleJobSeekarChange = (event) => {
+
+  const handleJobSeekerChange = (event) => {
     const { name, value } = event.target;
     setjobSeekerState({
       ...jobSeekerState,
@@ -77,37 +62,24 @@ const SignUp = () => {
   };
 
   return (
-    <div className="signup-container">
-      <h2>Sign Up</h2>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '70vh', padding: '20px' }}>
+      <LockIcon style={{ fontSize: '50px', color: 'blue' }} /> {/* Paper plane logo */}
+    <h2 style={{ textAlign: 'center', fontSize: '40px', color: 'black' }}>Sign Up</h2>
       <RoleSelection role={role} setRole={setRole} />
-
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {role === "jobseeker" && (
           <>
-            <div className="form-group">
-              <label htmlFor="jobSeekerName">Name:</label>
-              <input
-                type="text"
-                id="jobSeekerName"
-                name="jobSeekerName"
-                // value={jobSeekerName}
-                // onChange={(e) => handleJobSeekarChange(e.target.value)}
-                onChange={handleJobSeekarChange}
-                required
-                placeholder="Your Name"
-              />
-            </div>
             <div className="form-group">
               <label htmlFor="jobSeekerEmail">Email:</label>
               <input
                 type="email"
                 id="jobSeekerEmail"
-                name="jobSeekerEmail"
-                // value={jobSeekerEmail}
-                // onChange={(e) => handleJobSeekarChange(e.target.value)}
-                onChange={handleJobSeekarChange}
+                name="email"
+                value={jobSeekerState.email}
+                onChange={handleJobSeekerChange}
                 required
                 placeholder="Your Email"
+                style={{ width: '100%', padding: '10px', marginBottom: '15px', marginTop: '10px', border: '1px solid #ccc'  }}
               />
             </div>
             <div className="form-group">
@@ -115,12 +87,12 @@ const SignUp = () => {
               <input
                 type="password"
                 id="jobSeekerPassword"
-                name="jobSeekerPassword"
-                // value={jobSeekerPassword}
-                // onChange={(e) => handleJobSeekarChange(e.target.value)}
-                onChange={handleJobSeekarChange}
+                name="password"
+                value={jobSeekerState.password}
+                onChange={handleJobSeekerChange}
                 required
                 placeholder="Create a Password"
+                style={{ width: '100%', padding: '10px', marginBottom: '10px', marginTop: '10px', border: '1px solid #ccc'    }}
               />
             </div>
           </>
@@ -129,29 +101,16 @@ const SignUp = () => {
         {role === "company" && (
           <>
             <div className="form-group">
-              <label htmlFor="companyName">Company Name:</label>
-              <input
-                type="text"
-                id="companyName"
-                name="companyName"
-                // value={companyName}
-                // onChange={(e) => handleCompanyChange(e.target.value)}
-                onChange={handleCompanyChange}
-                required
-                placeholder="Your Company's Name"
-              />
-            </div>
-            <div className="form-group">
               <label htmlFor="companyEmail">Email:</label>
               <input
                 type="email"
                 id="companyEmail"
-                name="companyEmail"
-                // value={companyEmail}
-                // onChange={(e) => handleCompanyChange(e.target.value)}
+                name="email"
+                value={CompanyState.email}
                 onChange={handleCompanyChange}
                 required
                 placeholder="Company Email"
+                style={{ width: '100%', padding: '10px', marginBottom: '15px', marginTop: '10px', border: '1px solid #ccc'   }}
               />
             </div>
             <div className="form-group">
@@ -159,21 +118,19 @@ const SignUp = () => {
               <input
                 type="password"
                 id="companyPassword"
-                name="companyPassword"
-                // value={companyPassword}
-                // onChange={(e) => handleCompanyChange(e.target.value)}
+                name="password"
+                value={CompanyState.password}
                 onChange={handleCompanyChange}
                 required
                 placeholder="Create a Password"
+                style={{ width: '100%', padding: '10px', marginBottom: '10px', marginTop: '10px', border: '1px solid #ccc'   }}
               />
             </div>
           </>
         )}
 
-        <button type="submit" className="signup-button">
-          {role === "jobseeker"
-            ? "Sign Up as Job Seeker"
-            : "Sign Up as Company"}
+        <button type="submit" className="signup-button" style={{ marginTop: '20px', padding: '10px', width: '100%', backgroundColor: 'blue', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
+          {role === "jobseeker" ? "Sign Up as Job Seeker" : "Sign Up as Company"}
         </button>
       </form>
     </div>

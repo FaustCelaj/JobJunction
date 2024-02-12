@@ -64,7 +64,7 @@ const SearchBar = () => {
     >
       <TextField
         label="What are you looking for?"
-        placeholder="Software Engineer"
+        placeholder="Web Developer, Plumber, etc..."
         variant="outlined"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
