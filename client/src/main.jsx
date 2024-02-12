@@ -8,6 +8,7 @@ import ProfilePage from "./pages/ProfilePage.jsx";
 import Login from "./pages/Login.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import NoMatch from "./pages/NoMatch.jsx";
+import Job from "./pages/Job.jsx";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <ProfilePage />,
+      },
+      {
+        path: "/job",
+        element: <Job />,
       },
     ],
   },
