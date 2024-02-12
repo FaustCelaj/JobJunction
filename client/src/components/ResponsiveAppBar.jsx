@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link as RouterLink, useNavigate } from 'react-router-dom'; // Import useNavigate for programmatic navigation
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -15,17 +15,20 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 
-const pages = ['Home', 'Search'];
-const settings = ['Profile', 'Sign In', 'Logout'];
-
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const navigate = useNavigate(); // Hook for programmatic navigation
+  const navigate = useNavigate();
+
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+
+  const pages = ['Home', 'Search'];
+  const settings = isAuthenticated ? ['Profile', 'Logout'] : ['Sign In'];
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -34,16 +37,22 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = (setting) => {
+  const handleCloseUserMenu = (setting) => () => {
     setAnchorElUser(null);
-    if (setting === 'Profile') {
-      navigate('./'); // Navigate to Profile page
-    } else if (setting === 'Sign In') {
-      navigate('/signin'); // Navigate to Sign In page
-    } else if (setting === 'Logout') {
-      // Perform logout logic here
-      console.log('Logout logic here');
-      navigate('/'); // Redirect to home after logout
+    switch (setting) {
+      case 'Profile':
+        navigate('/profile');
+        break;
+      case 'Sign In':
+        setIsAuthenticated(true); 
+        navigate('/signin'); 
+        break;
+      case 'Logout':
+        setIsAuthenticated(false); 
+        navigate('/logout'); 
+        break;
+      default:
+        break;
     }
   };
 
@@ -52,21 +61,15 @@ function ResponsiveAppBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
+          <Typography variant="h6" noWrap component="a" href="#" sx={{
+            mr: 2,
+            display: { xs: "none", md: "flex" },
+            fontFamily: "monospace",
+            fontWeight: 700,
+            letterSpacing: ".3rem",
+            color: "inherit",
+            textDecoration: "none",
+          }}>
             JOB JUNCTION
           </Typography>
 
@@ -132,11 +135,11 @@ function ResponsiveAppBar() {
             JOB JUNCTION
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{ my: 2, color: 'white', display: 'block' }}
                 component={RouterLink}
                 to={page === "Home" ? "/" : `/${page.toLowerCase()}`}
               >
@@ -146,29 +149,29 @@ function ResponsiveAppBar() {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Account settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" />
+                <Avatar alt="Account" />
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: "45px" }}
+              sx={{ mt: '45px' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
+                vertical: 'top',
+                horizontal: 'right',
               }}
               keepMounted
               transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
+                vertical: 'top',
+                horizontal: 'right',
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={handleCloseUserMenu(setting)}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
