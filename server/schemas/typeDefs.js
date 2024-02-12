@@ -22,12 +22,14 @@ const typeDefs = `
     accountOwner:User
   }
   type JobPosting {
-    _id: ID
+   _id: ID
     title: String
     description: String
     location:String
-    salary:String
     locationType:String
+    jobFunctions:String
+    salary:String
+    isActive:String
     company:Company
   }
   type Application {
@@ -46,7 +48,7 @@ const typeDefs = `
     # Check for the usability of User and Company , remove it not used
     user: [User]
     company:[Company]
-    openjobs: [JobPosting]
+    openjobs(title:String,jobFunctions:String): [JobPosting]
     companyjobs(companyid: ID!): [JobPosting]
     application(jobid: ID!):[Application]
     onejob(jobid: ID!):[JobPosting]
