@@ -1,9 +1,9 @@
 import { useState } from "react";
-import RoleSelection from "../components/authentication/roleSelection";
+// import RoleSelection from "../components/authentication/roleSelection";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
 import { ADD_USER } from "../utils/mutations";
-import LockIcon from '@mui/icons-material/Lock';
+import LockIcon from "@mui/icons-material/Lock";
 
 const SignUp = () => {
   const [role, setRole] = useState("jobseeker");
@@ -79,7 +79,13 @@ const SignUp = () => {
                 onChange={handleJobSeekerChange}
                 required
                 placeholder="Your Email"
-                style={{ width: '100%', padding: '10px', marginBottom: '15px', marginTop: '10px', border: '1px solid #ccc'  }}
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  marginBottom: "15px",
+                  marginTop: "10px",
+                  border: "1px solid #ccc",
+                }}
               />
             </div>
             <div className="form-group">
@@ -92,7 +98,13 @@ const SignUp = () => {
                 onChange={handleJobSeekerChange}
                 required
                 placeholder="Create a Password"
-                style={{ width: '100%', padding: '10px', marginBottom: '10px', marginTop: '10px', border: '1px solid #ccc'    }}
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  marginBottom: "10px",
+                  marginTop: "10px",
+                  border: "1px solid #ccc",
+                }}
               />
             </div>
           </>
@@ -110,7 +122,13 @@ const SignUp = () => {
                 onChange={handleCompanyChange}
                 required
                 placeholder="Company Email"
-                style={{ width: '100%', padding: '10px', marginBottom: '15px', marginTop: '10px', border: '1px solid #ccc'   }}
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  marginBottom: "15px",
+                  marginTop: "10px",
+                  border: "1px solid #ccc",
+                }}
               />
             </div>
             <div className="form-group">
@@ -123,14 +141,35 @@ const SignUp = () => {
                 onChange={handleCompanyChange}
                 required
                 placeholder="Create a Password"
-                style={{ width: '100%', padding: '10px', marginBottom: '10px', marginTop: '10px', border: '1px solid #ccc'   }}
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  marginBottom: "10px",
+                  marginTop: "10px",
+                  border: "1px solid #ccc",
+                }}
               />
             </div>
           </>
         )}
 
-        <button type="submit" className="signup-button" style={{ marginTop: '20px', padding: '10px', width: '100%', backgroundColor: 'blue', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
-          {role === "jobseeker" ? "Sign Up as Job Seeker" : "Sign Up as Company"}
+        <button
+          type="submit"
+          className="signup-button"
+          style={{
+            marginTop: "20px",
+            padding: "10px",
+            width: "100%",
+            backgroundColor: "blue",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+        >
+          {role === "jobseeker"
+            ? "Sign Up as Job Seeker"
+            : "Sign Up as Company"}
         </button>
       </form>
     </div>

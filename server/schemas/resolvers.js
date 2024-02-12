@@ -39,6 +39,12 @@ const resolvers = {
       // }
       // throw AuthenticationError;
     },
+    onejob: async (parent, { jobid }) => {
+      // if (context.user) {
+      return jobPosting.find({ _id: jobid }).populate("company");
+      // }
+      // throw AuthenticationError;
+    },
   },
   Mutation: {
     addUser: async (parent, args) => {

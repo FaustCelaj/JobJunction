@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link as RouterLink, useNavigate } from 'react-router-dom'; // Import useNavigate for programmatic navigation
+
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -100,7 +101,11 @@ function ResponsiveAppBar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center" component={RouterLink} to={page === 'Home' ? '/' : `/${page.toLowerCase()}`}>
+                  <Typography
+                    textAlign="center"
+                    component={RouterLink}
+                    to={page === "Home" ? "/" : `/${page.toLowerCase()}`}
+                  >
                     {page}
                   </Typography>
                 </MenuItem>
@@ -133,7 +138,7 @@ function ResponsiveAppBar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
                 component={RouterLink}
-                to={page === 'Home' ? '/' : `/${page.toLowerCase()}`}
+                to={page === "Home" ? "/" : `/${page.toLowerCase()}`}
               >
                 {page}
               </Button>

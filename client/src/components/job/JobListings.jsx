@@ -100,10 +100,9 @@ const jobListingsData = [
     isActive: true,
     company: "Auto Drive",
   },
-
 ];
 
-const JobCard = (({ job }) => (
+const JobCard = ({ job }) => (
   <Card variant="outlined" sx={styles.card}>
     <Box sx={{ p: 2 }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -148,7 +147,7 @@ const JobCard = (({ job }) => (
       <Button variant="contained">View Posting</Button>
     </Box>
   </Card>
-));
+);
 
 const styles = {
   card: {
