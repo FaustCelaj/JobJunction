@@ -9,6 +9,8 @@ import Login from "./pages/Login.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import NoMatch from "./pages/NoMatch.jsx";
 import Job from "./pages/Job.jsx";
+import Logout from "./components/authentication/Logout.jsx"; 
+import SignIn from "./components/authentication/signIn.jsx"
 
 const router = createBrowserRouter([
   {
@@ -16,35 +18,14 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <NoMatch />,
     children: [
-      {
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/signup",
-        element: <SignUp />,
-      },
-      {
-        path: "/search",
-        element: <Search />,
-      },
-      // In here we can update it with the jobPosting id, whichever job the user clicks on will bring them to the specific job page
-      // {
-      //   path: "/search/id:",
-      //   element: <Search />,
-      // },
-      {
-        path: "/profile",
-        element: <ProfilePage />,
-      },
-      {
-        path: "/job",
-        element: <Job />,
-      },
+      { index: true, element: <Home /> },
+      { path: "login", element: <Login /> },
+      { path: "signup", element: <SignUp /> },
+      { path: "search", element: <Search /> },
+      { path: "profile", element: <ProfilePage /> },
+      { path: "job", element: <Job /> },
+      { path: "logout", element: <Logout /> }, 
+      { path: "signin", element: <SignIn /> },
     ],
   },
 ]);

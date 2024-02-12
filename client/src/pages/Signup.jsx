@@ -62,32 +62,11 @@ const SignUp = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "70vh",
-        padding: "20px",
-      }}
-    >
-      <LockIcon style={{ fontSize: "50px", color: "blue" }} />{" "}
-      {/* Paper plane logo */}
-      <h2 style={{ textAlign: "center", fontSize: "40px", color: "black" }}>
-        Sign Up
-      </h2>
-      {/* <RoleSelection role={role} setRole={setRole} /> */}
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          width: "100%",
-          maxWidth: "400px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '70vh', padding: '20px' }}>
+      <LockIcon style={{ fontSize: '50px', color: 'blue' }} /> 
+    <h2 style={{ textAlign: 'center', fontSize: '40px', color: 'black' }}>Sign Up</h2>
+      <RoleSelection role={role} setRole={setRole} />
+      <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {role === "jobseeker" && (
           <>
             <div className="form-group">
