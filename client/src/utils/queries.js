@@ -4,7 +4,6 @@ export const QUERY_ALLJOBS = gql`
 
   query getAllJobs($title: String, $jobFunction: String) {
     openjobs(title: $title, jobFunction: $jobFunction) {
-
       _id
       title
       description

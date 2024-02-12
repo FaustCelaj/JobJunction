@@ -52,7 +52,7 @@ const typeDefs = `
     # openjobs(title: String, jobFunction: String): [JobPosting]
     # openjobs: [JobPosting]
 
-    openjobs(title:String,jobFunctions:String): [JobPosting]
+    openjobs(title:String,jobFunction:String): [JobPosting]
 
     companyjobs(companyid: ID!): [JobPosting]
     application(jobid: ID!):[Application]

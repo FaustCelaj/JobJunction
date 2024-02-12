@@ -9,8 +9,8 @@ import Login from "./pages/Login.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import NoMatch from "./pages/NoMatch.jsx";
 import Job from "./pages/Job.jsx";
-import Logout from "./components/authentication/Logout.jsx"; 
-import SignIn from "./components/authentication/signIn.jsx"
+import Logout from "./components/authentication/Logout.jsx";
+import SignIn from "./components/authentication/signIn.jsx";
 
 const router = createBrowserRouter([
   {
@@ -23,8 +23,8 @@ const router = createBrowserRouter([
       { path: "signup", element: <SignUp /> },
       { path: "search", element: <Search /> },
       { path: "profile", element: <ProfilePage /> },
-      { path: "job", element: <Job /> },
-      { path: "logout", element: <Logout /> }, 
+      { path: "job/:jobId", element: <Job /> },
+      { path: "logout", element: <Logout /> },
       { path: "signin", element: <SignIn /> },
     ],
   },
