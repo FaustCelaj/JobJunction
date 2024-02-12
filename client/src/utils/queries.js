@@ -1,13 +1,14 @@
 import { gql } from "@apollo/client";
 
 export const QUERY_ALLJOBS = gql`
-  query getAllJobs() {
-    openjobs() {
+  query getAllJobs($title: String, $jobFunctions: String) {
+    openjobs(title: $title, jobFunctions: $jobFunctions) {
       _id
       title
       description
       location
       locationType
+      jobFunctions
       salary
       isActive
       company {

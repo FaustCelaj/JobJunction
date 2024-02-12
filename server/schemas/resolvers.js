@@ -20,7 +20,19 @@ const resolvers = {
     // },
     openjobs: async (parent, args) => {
       // if (context.user) {
-      return jobPosting.find().populate("company");
+      if (args.title && args.jobFunction) {
+        return jobPosting
+          .find({ title: args.title, jobFunction: args.jobFunction })
+          .populate("company");
+      } else if (args.jobFunction && !args.title) {
+        return jobPosting
+          .find({ jobFunction: args.jobFunction })
+          .populate("company");
+      } else if (!args.jobFunction && args.title) {
+        return jobPosting.find({ title: args.title }).populate("company");
+      } else {
+        return jobPosting.find().populate("company");
+      }
       // }
       // throw AuthenticationError;
     },
