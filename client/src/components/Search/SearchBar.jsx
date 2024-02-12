@@ -13,23 +13,29 @@ const SearchBar = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   // Default category
-  const [category, setCategory] = useState("Education");
+  const [category, setCategory] = useState("Engineering");
 
   const categories = [
-    "Construction, Repair & Maintenance Services",
+    "Administrative",
+    "Arts & Design",
+    "Business",
+    "Customer Services & Support",
     "Education",
-    "Government & Public Administration",
+    "Engineering",
+    "Finance & Accounting",
     "Healthcare",
-    "Hotel & Travel Accommodation",
-    "Human Resources & Staffing",
+    "Human Resources",
     "Information Technology",
-    "Management & Consulting",
-    "Manufacturing",
-    "Non-profit & NGO",
-    "Pharmaceutical & Biotechnology",
-    "Real Estate",
-    "Restaurants & Food Service",
-    "Retail & Wholesale",
+    "Marketing",
+    "Military & Protective Services",
+    "Operations",
+    "Other",
+    "Product & Project Management",
+    "Research & Science",
+    "Retail & Food Services",
+    "Sales",
+    "Skilled Labor & Manufacturing",
+    "Transportation",
   ];
 
   const handleSearch = () => {

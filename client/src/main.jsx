@@ -8,6 +8,7 @@ import ProfilePage from "./pages/ProfilePage.jsx";
 import Login from "./pages/Login.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import NoMatch from "./pages/NoMatch.jsx";
+import Job from "./pages/Job.jsx";
 
 const router = createBrowserRouter([
   {
@@ -31,9 +32,18 @@ const router = createBrowserRouter([
         path: "/search",
         element: <Search />,
       },
+      // In here we can update it with the jobPosting id, whichever job the user clicks on will bring them to the specific job page
+      // {
+      //   path: "/search/id:",
+      //   element: <Search />,
+      // },
       {
         path: "/profile",
         element: <ProfilePage />,
+      },
+      {
+        path: "/job",
+        element: <Job />,
       },
     ],
   },
