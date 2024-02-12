@@ -31,6 +31,11 @@ const router = createBrowserRouter([
         path: "/search",
         element: <Search />,
       },
+      // In here we can update it with the jobPosting id, whichever job the user clicks on will bring them to the specific job page
+      // {
+      //   path: "/search/id:",
+      //   element: <Search />,
+      // },
       {
         path: "/profile",
         element: <ProfilePage />,
