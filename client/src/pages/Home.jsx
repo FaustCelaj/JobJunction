@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import SearchBar from "../components/Search/SearchBar";
 import HowItWorks from "../components/Home/HowItWorks";
 import CategoryDisplay from "../components/Home/CategoryDisplay";
-
+import Footer from "../pages/Footer"; // Ensure this import path is correct
 
 export default function Home() {
   return (
@@ -25,6 +25,7 @@ export default function Home() {
         <HowItWorks />
         <CategoryDisplay />
       </Box>
+      <Footer /> 
     </>
   );
 }

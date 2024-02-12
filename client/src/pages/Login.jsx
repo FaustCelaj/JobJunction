@@ -39,40 +39,38 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '20px' }}>
+      <h2 style={{ textAlign: 'center' }}>Login</h2>
       <RoleSelection role={role} setRole={setRole} />
       {submitted ? (
         <ProfilePage role={role} />
       ) : (
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="email">Email:</label>
+        <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '400px' }}>
+          <div className="form-group" style={{ marginBottom: '15px' }}>
+            <label htmlFor="email" style={{ display: 'block', textAlign: 'center' }}>Email:</label>
             <input
               type="email"
               id="email"
               name="email"
-              // value={email}
-              // onChange={(e) => setEmail(e.target.value)}
               onChange={handleChange}
               required
               placeholder="Enter your email"
+              style={{ width: '100%', padding: '10px' }}
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Password:</label>
+          <div className="form-group" style={{ marginBottom: '15px' }}>
+            <label htmlFor="password" style={{ display: 'block', textAlign: 'center' }}>Password:</label>
             <input
               type="password"
               id="password"
               name="password"
-              // value={password}
-              // onChange={(e) => setPassword(e.target.value)}
               onChange={handleChange}
               required
               placeholder="Enter your password"
+              style={{ width: '100%', padding: '10px' }}
             />
           </div>
-          <button type="submit" className="login-button">
+          <button type="submit" className="login-button" style={{ width: '100%', padding: '10px', backgroundColor: 'blue', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
             Login
           </button>
         </form>

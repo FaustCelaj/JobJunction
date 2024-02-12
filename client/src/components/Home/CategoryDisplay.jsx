@@ -18,14 +18,14 @@ const categories = [
 
 export default function CategoryDisplay() {
   return (
-    <Box sx={{ backgroundColor: 'blue', color: 'white', p: 6 }}>
+    <Box sx={{ backgroundColor: 'primary.main', color: 'white', p: 6 }}>
       <Typography variant="h2" gutterBottom sx={{ mb: 3 }}>
         Most Demanding Categories.
       </Typography>
       <Typography variant="body1" sx={{ mb: 3 }}> 
-        Together with useful notifications, collaboration insights, and improvement tips lorem etc.
+        Together with useful notifications, collaboration insights, and improvement tips etc.
       </Typography>
-      <Link href="/search" color="inherit" underline="hover" sx={{ mb: 5 }}>
+      <Link href="/search" color="primary.main" underline="hover" sx={{ mb: 5 }}>
         Explore all fields
       </Link>
       <Grid container spacing={4} justifyContent="center">

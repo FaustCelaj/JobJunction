@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link as RouterLink } from 'react-router-dom'; // Import RouterLink for navigation
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -45,7 +46,7 @@ function ResponsiveAppBar() {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="#"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -56,10 +57,9 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            JOB JUNCTION
           </Typography>
 
-          {/* this is the left side nav. This is only viewable on smaller screens */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -91,7 +91,9 @@ function ResponsiveAppBar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign="center" component={RouterLink} to={page === 'Home' ? '/' : `/${page.toLowerCase()}`}>
+                    {page}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -101,7 +103,7 @@ function ResponsiveAppBar() {
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="#"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -113,7 +115,7 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            JOBJUNCTION
+            JOB JUNCTION
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
@@ -121,6 +123,8 @@ function ResponsiveAppBar() {
                 key={page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
+                component={RouterLink}
+                to={page === 'Home' ? '/' : `/${page.toLowerCase()}`}
               >
                 {page}
               </Button>
@@ -161,4 +165,5 @@ function ResponsiveAppBar() {
     </AppBar>
   );
 }
+
 export default ResponsiveAppBar;
