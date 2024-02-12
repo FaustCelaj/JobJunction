@@ -13,7 +13,7 @@ const Logout = ({ onLogout }) => {
     }
 
     // Redirects the user to the login page after logout
-    setTimeout(() => navigate('/'), 1000); // waits 1 second before redirecting
+    setTimeout(() => navigate('/'), 2000); // waits 1 second before redirecting
   }, [onLogout, navigate]);
 
   // Renders a confirmation message

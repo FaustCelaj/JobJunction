@@ -5,20 +5,20 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
+import Link from '@mui/material/Link'; // Bring back Link for copyright
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Job Junction
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -28,6 +28,7 @@ function Copyright(props) {
 
 export default function SignIn() {
   const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -35,7 +36,7 @@ export default function SignIn() {
       email: data.get('email'),
       password: data.get('password'),
     });
-    navigate('/'); 
+    navigate('/'); // Navigate to home after sign-in
   };
 
   return (
@@ -95,7 +96,7 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="#" variant="body2" onClick={() => navigate('/signup')} style={{ cursor: 'pointer' }}>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
