@@ -46,7 +46,8 @@ const typeDefs = `
     # Check for the usability of User and Company , remove it not used
     user: [User]
     company:[Company]
-    openjobs: [JobPosting]
+    openjobs(title: String, jobFunction: String): [JobPosting]
+    # openjobs: [JobPosting]
     companyjobs(companyid: ID!): [JobPosting]
     application(jobid: ID!):[Application]
   }

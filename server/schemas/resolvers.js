@@ -18,12 +18,30 @@ const resolvers = {
     //   // }
     //   // throw AuthenticationError;
     // },
-    openjobs: async (parent, args) => {
-      // if (context.user) {
-      return jobPosting.find().populate("company");
-      // }
-      // throw AuthenticationError;
+
+    // open jobs from search bar
+    openjobs: async (parent, { title, jobFunction }) => {
+      let query = {};
+      if (title) {
+        // Direct match for title
+        query.title = title;
+      }
+      if (jobFunction) {
+        // Direct match for jobFunction
+        query.jobFunction = jobFunction;
+      }
+
+      return jobPosting.find(query).populate("company");
     },
+
+    // // open jobs
+    // openjobs: async (parent, args) => {
+    //   // if (context.user) {
+    //   return jobPosting.find().populate("company");
+    //   // }
+    //   // throw AuthenticationError;
+    // },
+
     companyjobs: async (parent, { companyid }) => {
       // if (context.user) {
       return jobPosting.find({ company: companyid }).populate("company");
