@@ -70,6 +70,7 @@ export const QUERY_ONEJOB = gql`
       locationType
       salary
       isActive
+      jobFunction
       company {
         name
       }

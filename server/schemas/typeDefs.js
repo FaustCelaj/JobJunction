@@ -27,7 +27,7 @@ const typeDefs = `
     description: String
     location:String
     locationType:String
-    jobFunctions:String
+    jobFunction:String
     salary:String
     isActive:String
     company:Company
