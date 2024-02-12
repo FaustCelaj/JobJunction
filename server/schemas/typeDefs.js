@@ -49,6 +49,8 @@ const typeDefs = `
     openjobs: [JobPosting]
     companyjobs(companyid: ID!): [JobPosting]
     application(jobid: ID!):[Application]
+    onejob(jobid: ID!):[JobPosting]
+
   }
   type Mutation {
     addUser(username: String!,email: String!, password: String!, role: String!,firstName:String,lastName:String,resumeURL:String,company:ID): Auth

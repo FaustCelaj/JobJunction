@@ -43,3 +43,20 @@ export const QUERY_APPLICATION = gql`
     }
   }
 `;
+
+export const QUERY_ONEJOB = gql`
+  query getOneJob($jobid: ID!) {
+    onejob(jobid: $jobid) {
+      _id
+      title
+      description
+      location
+      locationType
+      salary
+      isActive
+      company {
+        name
+      }
+    }
+  }
+`;
