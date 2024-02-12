@@ -20,7 +20,7 @@ const jobPostingSchema = new Schema({
     enum: ["In Office", "Hybrid", "Remote"],
     required: true,
   },
-  jobFunctions: {
+  jobFunction: {
     type: String,
     enum: [
       "Administrative",

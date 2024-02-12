@@ -22,12 +22,14 @@ const typeDefs = `
     accountOwner:User
   }
   type JobPosting {
-    _id: ID
+   _id: ID
     title: String
     description: String
     location:String
-    salary:String
     locationType:String
+    jobFunction:String
+    salary:String
+    isActive:String
     company:Company
   }
   type Application {
@@ -46,9 +48,16 @@ const typeDefs = `
     # Check for the usability of User and Company , remove it not used
     user: [User]
     company:[Company]
-    openjobs: [JobPosting]
+    
+    # openjobs(title: String, jobFunction: String): [JobPosting]
+    # openjobs: [JobPosting]
+
+    openjobs(title:String,jobFunction:String): [JobPosting]
+
     companyjobs(companyid: ID!): [JobPosting]
     application(jobid: ID!):[Application]
+    onejob(jobid: ID!):[JobPosting]
+
   }
   type Mutation {
     addUser(username: String!,email: String!, password: String!, role: String!,firstName:String,lastName:String,resumeURL:String,company:ID): Auth

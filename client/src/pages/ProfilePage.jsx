@@ -1,12 +1,12 @@
-import JobSeekerProfile from '../components/profile/jobseekerprofile';
-import CompanyOwnerProfile from '../components/profile/companyownerprofile';
+import JobSeekerProfile from "../components/profile/jobseekerprofile";
+import CompanyOwnerProfile from "../components/profile/companyownerprofile";
 
-const ProfilePage = ({ userRole }) => {
+const ProfilePage = ({ role }) => {
   return (
     <div>
-      {userRole === 'jobseeker' && <JobSeekerProfile />}
-      {userRole === 'companyowner' && <CompanyOwnerProfile />}
-      {userRole !== 'jobseeker' && userRole !== 'companyowner' && (
+      {role === "jobseeker" ? <JobSeekerProfile /> : <CompanyOwnerProfile />}
+      {/* {role === "companyowner" && <CompanyOwnerProfile />} */}
+      {role !== "jobseeker" && role !== "companyowner" && (
         <p>Role not recognized or user profile is unavailable.</p> // To handle unexpected or undefined roles
       )}
     </div>
