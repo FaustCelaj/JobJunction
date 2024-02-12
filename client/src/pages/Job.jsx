@@ -1,10 +1,11 @@
-import React from 'react'
-import IndividualJob from '../components/job/IndividualJob';
+import React from "react";
+import { useParams } from "react-router-dom";
+import IndividualJob from "../components/job/IndividualJob";
 
 function Job() {
-  return (
-    <IndividualJob />
-  )
+  const { jobId } = useParams();
+
+  return <IndividualJob jobId={jobId} />;
 }
 
-export default Job
+export default Job;

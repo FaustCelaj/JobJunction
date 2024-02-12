@@ -1,17 +1,10 @@
 import React from "react";
-import Card from "@mui/material/Card";
-import Box from "@mui/material/Box";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
-import Divider from "@mui/material/Divider";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
-import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
-import Grid from "@mui/material/Grid";
-
 import { useQuery } from "@apollo/client";
 import { QUERY_ALLJOBS } from "../../utils/queries";
+import { Grid, Card, Box, Chip, Stack, Divider, Button, Typography } from "@mui/material";
+import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
+import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
+import { Link } from "react-router-dom";
 
 const JobCard = ({ job }) => (
   <Card variant="outlined" sx={styles.card}>
@@ -20,15 +13,15 @@ const JobCard = ({ job }) => (
         <Typography gutterBottom variant="h5" component="div">
           {job.title}
         </Typography>
-        <Chip
+        {/* <Chip
           label={job.jobFunction}
           color="primary"
           size="small"
           variant="outlined"
-        />
+        /> */}
       </Stack>
       <Typography gutterBottom variant="subtitle2" component="div">
-        {job.company}
+        {job.company.name} {/* Assuming company is an object with a name property */}
       </Typography>
       <Typography color="text.secondary" variant="body2">
         {job.description}
@@ -55,7 +48,7 @@ const JobCard = ({ job }) => (
       </Stack>
     </Box>
     <Box sx={{ p: 2, display: "flex", justifyContent: "center" }}>
-      <Button variant="contained">View Posting</Button>
+    <Button component={Link} to={`/job/${job._id}`} variant="contained">View Posting</Button>
     </Box>
   </Card>
 );
@@ -72,25 +65,15 @@ const styles = {
 };
 
 const JobListings = ({ searchTerm, category }) => {
-  console.log({ searchTerm, category });
-
   const { loading, error, data } = useQuery(QUERY_ALLJOBS, {
     variables: { title: searchTerm, jobFunction: category },
   });
 
   if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error loading jobs.</p>;
 
   const jobs = data?.openjobs || [];
-  console.log(jobs);
-  console.log(error);
 
-
-  // const { loading, data } = useQuery(QUERY_ALLJOBS, {
-  //   variables: { title: searchTerm, jobFunction: category },
-  // });
-  // const openjobs = data?.openjobs || {};
-  // console.log(openjobs);
-  
   return (
     <Grid container spacing={2} justifyContent="center">
       {jobs.map((job) => (

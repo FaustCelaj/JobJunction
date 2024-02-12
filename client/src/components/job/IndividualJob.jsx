@@ -36,7 +36,7 @@ const ExampleJobData = {
     // accountOwner: users[0]._id,
   },
 };
-const IndividualJob = () => {
+const IndividualJob = ({ jobId }) => {
   const { jobId } = useParams();
   const { loading, data } = useQuery(QUERY_ONEJOB, {
     // Pass the `thoughtId` URL parameter into query to retrieve this thought's data
