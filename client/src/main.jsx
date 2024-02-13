@@ -6,7 +6,7 @@ import Home from "./pages/Home";
 import Search from "./pages/Search.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import Login from "./pages/Login.jsx";
-import SignUp from "./pages/SignUp.jsx";
+import SignUp from "./pages/Signup.jsx";
 import NoMatch from "./pages/NoMatch.jsx";
 import Job from "./pages/Job.jsx";
 import Logout from "./components/authentication/Logout.jsx";
