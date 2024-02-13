@@ -20,7 +20,7 @@ type Company {
   location: String
   contactEmail: String
   website: String
-  accountOwner: user
+  accountOwner: User
 }
 
   type JobPosting {
