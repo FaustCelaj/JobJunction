@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import IndividualJob from "../components/job/IndividualJob";
+import IndividualJob from "../components/JobDisplays/IndividualJob";
 
 function Job() {
   const { jobId } = useParams();

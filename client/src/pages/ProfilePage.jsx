@@ -1,16 +1,36 @@
-import JobSeekerProfile from "../components/profile/jobseekerprofile";
-import CompanyOwnerProfile from "../components/profile/companyownerprofile";
+import { useState, useEffect } from "react";
+import AuthService from "../utils/auth"; // Adjust the import path as necessary
+import CompanyProfile from '../components/profile/Company/CompanyProfile';
+import JobSeekerProfile from '../components/profile/Jobseeker/JobSeekerProfile';
+import decode from "jwt-decode";
 
-const ProfilePage = ({ role }) => {
+
+const ProfilePage = () => {
+  const [userRole, setUserRole] = useState("");
+
+  useEffect(() => {
+    const token = AuthService.getToken();
+    if (token) {
+      try {
+        const decoded = decode(token);
+        setUserRole(decoded.data.role);
+      } catch (e) {
+        console.error("Error decoding token:", e);
+      }
+    }
+  }, []);
+
   return (
     <div>
-      {role === "jobseeker" ? <JobSeekerProfile /> : <CompanyOwnerProfile />}
-      {/* {role === "companyowner" && <CompanyOwnerProfile />} */}
-      {role !== "jobseeker" && role !== "companyowner" && (
-        <p>Role not recognized or user profile is unavailable.</p> // To handle unexpected or undefined roles
+      {userRole === "jobseeker" ? (
+        <JobSeekerProfile />
+      ) : (
+        <CompanyProfile />
       )}
     </div>
   );
 };
 
 export default ProfilePage;
+
+

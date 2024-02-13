@@ -1,5 +1,5 @@
 import React from 'react';
-import EditableFormModal from './formModal';
+import EditableFormModal from '../formModal';
 
 const JobSeekerProfile = () => {
   return (

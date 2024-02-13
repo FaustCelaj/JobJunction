@@ -10,7 +10,7 @@ import SignUp from "./pages/SignUp.jsx";
 import NoMatch from "./pages/NoMatch.jsx";
 import Job from "./pages/Job.jsx";
 import Logout from "./components/authentication/Logout.jsx";
-import SignIn from "./components/authentication/signIn.jsx";
+
 
 const router = createBrowserRouter([
   {
@@ -25,7 +25,6 @@ const router = createBrowserRouter([
       { path: "profile", element: <ProfilePage /> },
       { path: "job/:jobId", element: <Job /> },
       { path: "logout", element: <Logout /> },
-      { path: "signin", element: <SignIn /> },
     ],
   },
 ]);

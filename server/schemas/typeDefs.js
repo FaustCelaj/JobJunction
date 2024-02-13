@@ -1,26 +1,28 @@
 const typeDefs = `
-  type User {
-    _id: ID
-    username: String
-    email:String
-    password:String
-    role:String
-    firstName:String
-    lastName:String
-    resumeURL:String
-    company:Company
-  }
-  type Company {
-    _id: ID
-    name: String
-    description: String
-    industry: String
-    companySize: String
-    location:String
-    contactEmail:String
-    website:String
-    accountOwner:User
-  }
+type User {
+  _id: ID
+  username: String
+  email: String
+  password: String
+  role: String
+  firstName: String
+  lastName: String
+  resumeURL: String
+  company: Company
+}
+
+type Company {
+  _id: ID
+  name: String
+  description: String
+  industry: String
+  companySize: String
+  location: String
+  contactEmail: String
+  website: String
+  accountOwner: user
+}
+
   type JobPosting {
    _id: ID
     title: String
@@ -48,11 +50,11 @@ const typeDefs = `
     # Check for the usability of User and Company , remove it not used
     user: [User]
     company:[Company]
-    
-    # openjobs(title: String, jobFunction: String): [JobPosting]
-    # openjobs: [JobPosting]
+    userCompanyDetails(userId: ID!): User
+    getCompanyByAccountOwner(accountOwnerId: ID!): Company
 
     openjobs(title:String,jobFunction:String): [JobPosting]
+    
 
     companyjobs(companyid: ID!): [JobPosting]
     application(jobid: ID!):[Application]

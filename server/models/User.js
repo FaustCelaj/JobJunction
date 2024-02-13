@@ -44,10 +44,9 @@ const userSchema = new Schema({
   },
 
   company: {
-    type: Schema.Types.ObjectId,
-    ref: "Company",
-    required: false,
-  },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Company'
+  }
 });
 
 // set up pre-save middleware to create password
