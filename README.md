@@ -14,6 +14,8 @@
 
 [Screenshots](#Screenshots)
 
+[Contributors](#Contributors)
+
 ## Description
 JobJunction is an advanced online platform designed to seamlessly connect job seekers with employers, facilitating the application process with the help of modern technologies such as React.js, GraphQL, and Material UI. It streamlines the job search and recruitment process through a user-friendly interface, offering a dynamic space for professional opportunities and career growth.
 
@@ -53,4 +55,7 @@ https://jobjunction-jjm8.onrender.com/
 <img width="2044" alt="Screenshot 2024-02-13 at 13 47 51" src="https://github.com/FaustCelaj/JobJunction/assets/149631014/eae9487a-1bc8-44eb-9c24-9c8b5547fba7">
 <img width="2044" alt="Screenshot 2024-02-13 at 13 48 23" src="https://github.com/FaustCelaj/JobJunction/assets/149631014/1dcd369c-0557-42af-a0f1-0d7328bea4b2">
 
+## Contributors
 
+[Sangeetha](https://github.com/SangeethaGnanavel)
+[Gurwinder](https://github.com/daze94)
