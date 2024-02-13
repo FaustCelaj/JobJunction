@@ -23,7 +23,6 @@ import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
 const IndividualJob = ({ jobId }) => {
-  // const navigate = useNavigate();
   const { loading, data } = useQuery(QUERY_ONEJOB, {
     variables: { jobid: jobId },
   });
@@ -33,10 +32,6 @@ const IndividualJob = ({ jobId }) => {
   const [addApplication] = useMutation(ADD_APPLICATION);
 
   const handleApplyClick = async () => {
-    // if (!Auth.loggedIn()) {
-    //   alert("Please log in to apply");
-    //   return;
-    // }
     try {
       await addApplication({
         variables: {

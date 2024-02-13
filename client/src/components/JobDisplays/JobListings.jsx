@@ -13,12 +13,6 @@ const JobCard = ({ job }) => (
         <Typography gutterBottom variant="h5" component="div">
           {job.title}
         </Typography>
-        {/* <Chip
-          label={job.jobFunction}
-          color="primary"
-          size="small"
-          variant="outlined"
-        /> */}
       </Stack>
       <Typography gutterBottom variant="subtitle2" component="div">
         {job.company.name} {/* Assuming company is an object with a name property */}
