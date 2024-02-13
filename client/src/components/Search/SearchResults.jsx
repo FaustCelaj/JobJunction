@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import JobListings from "../job/JobListings";
+import JobListings from "../JobDisplays/JobListings";
 import { Box, Typography } from "@mui/material";
 
 const SearchResults = () => {

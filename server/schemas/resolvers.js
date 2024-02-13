@@ -19,19 +19,36 @@ const resolvers = {
     //   // throw AuthenticationError;
     // },
 
-//     // open jobs from search bar
-//     openjobs: async (parent, { title, jobFunction }) => {
-//       let query = {};
-//       if (title) {
-//         // Direct match for title
-//         query.title = title;
-//       }
-//       if (jobFunction) {
-//         // Direct match for jobFunction
-//         query.jobFunction = jobFunction;
-//       }
+    //     // open jobs from search bar
+    //     openjobs: async (parent, { title, jobFunction }) => {
+    //       let query = {};
+    //       if (title) {
+    //         // Direct match for title
+    //         query.title = title;
+    //       }
+    //       if (jobFunction) {
+    //         // Direct match for jobFunction
+    //         query.jobFunction = jobFunction;
+    //       }
 
-//       return jobPosting.find(query).populate("company");
+    //       return jobPosting.find(query).populate("company");
+
+    userCompanyDetails: async (_, { userId }) => {
+      try {
+        const user = await User.findById(userId).populate('company').exec();
+        console.log(user); // Check the output
+        return user;
+      } catch (error) {
+        console.error(error);
+        throw new Error('Error fetching user company details');
+      }
+    },
+
+    getCompanyByAccountOwner: async (_, { accountOwnerId }) => {
+      // Here you're looking for a company where the accountOwner field matches the ID passed in.
+      const company = await Company.findOne({ accountOwner: accountOwnerId });
+      return company;
+    },
 
     openjobs: async (parent, args) => {
       // if (context.user) {
@@ -50,7 +67,6 @@ const resolvers = {
       }
       // }
       // throw AuthenticationError;
-
     },
 
     // // open jobs

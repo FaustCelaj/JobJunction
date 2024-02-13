@@ -1,24 +1,19 @@
-import { useState } from "react";
-// import RoleSelection from "../components/authentication/roleSelection";
+import React, { useState, useEffect } from "react";
 import ProfilePage from "../pages/ProfilePage";
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../utils/mutations";
 import Auth from "../utils/auth";
-import LockIcon from '@mui/icons-material/Lock';
+import LockIcon from "@mui/icons-material/Lock";
+import { Container, Box, Typography, TextField, Button, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from "@mui/material";
 
 const LoginPage = () => {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  const [role, setRole] = useState("jobseeker");
+  const [role, setRole] = useState("");
   const [formState, setFormState] = useState({ email: "", password: "" });
   const [submitted, setSubmitted] = useState(false);
   const [login, { error }] = useMutation(LOGIN);
 
-  // Function to handle the form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Logic to handle login goes here
-    // This could involve setting state, making an API call, etc.
     try {
       const mutationResponse = await login({
         variables: { email: formState.email, password: formState.password },
@@ -27,84 +22,77 @@ const LoginPage = () => {
       Auth.login(token);
       setSubmitted(true);
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
-    // Here you would typically call an authentication service or dispatch a login action
   };
+
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormState({
-      ...formState,
+    setFormState(prev => ({
+      ...prev,
       [name]: value,
-    });
+    }));
   };
+
   const handleRoleChange = (event) => {
-    const { value } = event.target;
-    setRole(value);
+    setRole(event.target.value);
   };
+
+  useEffect(() => {
+    if (submitted) {
+      console.log(role, "Logged in successfully");
+    }
+  }, [role, submitted]);
 
   return (
-
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '70vh', padding: '20px' }}>
-      <LockIcon style={{ fontSize: '50px', color: 'blue' }} /> 
-      <h2 style={{ textAlign: 'center', fontSize: '40px' }}>Login</h2>
-      <RoleSelection role={role} setRole={setRole} />
-      {submitted ? (
-        <ProfilePage role={role} />
-      ) : (
-        <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '400px' }}>
-          <div className="form-group" style={{ marginBottom: '15px' }}>
-            <label htmlFor="email" style={{ display: 'block', textAlign: 'center',marginBottom: '15px' }}>Email:</label>
-
-            <input
-              type="email"
-              id="email"
-              name="email"
-              onChange={handleChange}
-              required
-              placeholder="Enter your email"
-
-              style={{ width: '100%', padding: '10px', border: '1px solid #ccc'  }}
-
-            />
-          </div>
-          <div className="form-group" style={{ marginBottom: "15px" }}>
-            <label
-              htmlFor="password"
-              style={{ display: "block", textAlign: "center" }}
-            >
-              Password:
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              onChange={handleChange}
-              required
-              placeholder="Enter your password"
-
-              style={{ width: '100%', padding: '10px', marginTop: '15px', border: '1px solid #ccc'  }}
-
-            />
-          </div>
-          <button
-            type="submit"
-            className="login-button"
-            style={{
-              width: "100%",
-              padding: "10px",
-              backgroundColor: "blue",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-          >
-            Login
-          </button>
-        </form>
-      )}
-    </div>
+    <Container maxWidth="sm" sx={{ mt: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <LockIcon sx={{ fontSize: 60, color: 'primary.main' }} />
+      <Typography component="h1" variant="h4" sx={{ mb: 2 }}>
+        Login
+      </Typography>
+      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+        <FormControl component="fieldset">
+          <FormLabel component="legend">Role</FormLabel>
+          <RadioGroup row name="role" value={role} onChange={handleRoleChange}>
+            <FormControlLabel value="jobseeker" control={<Radio />} label="Job Seeker" />
+            <FormControlLabel value="company" control={<Radio />} label="Company" />
+          </RadioGroup>
+        </FormControl>
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          id="email"
+          label="Email Address"
+          name="email"
+          autoComplete="email"
+          autoFocus
+          onChange={handleChange}
+          variant="outlined"
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          autoComplete="current-password"
+          onChange={handleChange}
+          variant="outlined"
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+        >
+          Login
+        </Button>
+      </Box>
+      {submitted && <ProfilePage role={role} />}
+    </Container>
   );
 };
 

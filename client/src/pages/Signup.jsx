@@ -1,191 +1,131 @@
-import { useState } from "react";
-// import RoleSelection from "../components/authentication/roleSelection";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
 import { ADD_USER } from "../utils/mutations";
-import LockIcon from '@mui/icons-material/Lock';
-import { useNavigate } from 'react-router-dom';
-
+import { Container, Box, Typography, TextField, Button, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from "@mui/material";
+import LockIcon from "@mui/icons-material/Lock";
 
 const SignUp = () => {
-  const navigate = useNavigate();
-  const [role, setRole] = useState("jobseeker");
-  const [formState, setFormState] = useState({ username: "", email: "", password: "" });
+  const [role, setRole] = useState("");
+  const [formState, setFormState] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
   const [addUser] = useMutation(ADD_USER);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormState({ ...formState, [name]: value });
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Submitting form...");
-
+    const { username, email, password } = formState;
     try {
-      // Assuming username is derived from the email, you might want to allow users to set this explicitly
-      const username = formState.email.split('@')[0];
-
-      const { data } = await addUser({
-        variables: { ...formState, username, role },
+      const mutationResponse = await addUser({
+        variables: {
+          username,
+          email,
+          password,
+          role,
+        },
       });
-
-      if (data.addUser.token) {
-        Auth.login(data.addUser.token); // Assuming Auth.login() handles setting the token and user authentication
-        console.log("Sign-up successful, navigating to home page...");
-        navigate('/');
-      } else {
-        console.error("Sign-up failed: No token received");
-      }
-    } catch (error) {
-      console.error("Error during sign-up process:", error);
-      // Handle errors (e.g., user already exists, server error) here. You might want to show an error message.
+      const token = mutationResponse.data.addUser.token;
+      Auth.login(token);
+      console.log(`${role.charAt(0).toUpperCase() + role.slice(1)} Added and Json token created`);
+    } catch (e) {
+      console.error(e);
     }
   };
 
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '70vh', padding: '20px' }}>
-      <LockIcon style={{ fontSize: '50px', color: 'blue' }} />
-      <h2 style={{ textAlign: 'center', fontSize: '40px', color: 'black' }}>Sign Up</h2>
-      <RoleSelection role={role} setRole={setRole} />
-      <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+  const handleRoleChange = (event) => {
+    setRole(event.target.value);
+    // Reset form state when changing roles
+    setFormState({
+      username: "",
+      email: "",
+      password: "",
+    });
+  };
 
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formState.email}
-            onChange={handleChange}
+  return (
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <LockIcon sx={{ m: 1, fontSize: 50, color: 'primary.main' }} />
+        <Typography component="h1" variant="h5">
+          Sign Up
+        </Typography>
+        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">I am a:</FormLabel>
+            <RadioGroup
+              row
+              aria-label="role"
+              name="role"
+              value={role}
+              onChange={handleRoleChange}
+            >
+              <FormControlLabel value="jobseeker" control={<Radio />} label="Job Seeker" />
+              <FormControlLabel value="company" control={<Radio />} label="Company" />
+            </RadioGroup>
+          </FormControl>
+          <TextField
+            autoComplete="fname"
+            name="username"
             required
-            placeholder="Your Email"
-            style={{ width: '100%', padding: '10px', marginBottom: '15px', marginTop: '10px', border: '1px solid #ccc' }}
+            fullWidth
+            id="username"
+            label={role === "jobseeker" ? "Your Name" : "Company Name"}
+            autoFocus
+            margin="normal"
+            onChange={handleChange}
+            value={formState.username}
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
-          <input
+          <TextField
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            margin="normal"
+            onChange={handleChange}
+            value={formState.email}
+          />
+          <TextField
+            required
+            fullWidth
+            name="password"
+            label="Password"
             type="password"
             id="password"
-            name="password"
-            value={formState.password}
+            autoComplete="new-password"
+            margin="normal"
             onChange={handleChange}
-            required
-            placeholder="Create a Password"
-            style={{ width: '100%', padding: '10px', marginBottom: '10px', marginTop: '10px', border: '1px solid #ccc' }}
+            value={formState.password}
           />
-        </div>
-        <button type="submit" className="signup-button" style={{ marginTop: '20px', padding: '10px', width: '100%', backgroundColor: 'blue', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
-          Sign Up
-
-        {role === "jobseeker" && (
-          <>
-            <div className="form-group">
-              <label htmlFor="jobSeekerEmail">Email:</label>
-              <input
-                type="email"
-                id="jobSeekerEmail"
-                name="email"
-                value={jobSeekerState.email}
-                onChange={handleJobSeekerChange}
-                required
-                placeholder="Your Email"
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  marginBottom: "15px",
-                  marginTop: "10px",
-                  border: "1px solid #ccc",
-                }}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="jobSeekerPassword">Password:</label>
-              <input
-                type="password"
-                id="jobSeekerPassword"
-                name="password"
-                value={jobSeekerState.password}
-                onChange={handleJobSeekerChange}
-                required
-                placeholder="Create a Password"
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  marginBottom: "10px",
-                  marginTop: "10px",
-                  border: "1px solid #ccc",
-                }}
-              />
-            </div>
-          </>
-        )}
-
-        {role === "company" && (
-          <>
-            <div className="form-group">
-              <label htmlFor="companyEmail">Email:</label>
-              <input
-                type="email"
-                id="companyEmail"
-                name="email"
-                value={CompanyState.email}
-                onChange={handleCompanyChange}
-                required
-                placeholder="Company Email"
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  marginBottom: "15px",
-                  marginTop: "10px",
-                  border: "1px solid #ccc",
-                }}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="companyPassword">Password:</label>
-              <input
-                type="password"
-                id="companyPassword"
-                name="password"
-                value={CompanyState.password}
-                onChange={handleCompanyChange}
-                required
-                placeholder="Create a Password"
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  marginBottom: "10px",
-                  marginTop: "10px",
-                  border: "1px solid #ccc",
-                }}
-              />
-            </div>
-          </>
-        )}
-
-        <button
-          type="submit"
-          className="signup-button"
-          style={{
-            marginTop: "20px",
-            padding: "10px",
-            width: "100%",
-            backgroundColor: "blue",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
-        >
-          {role === "jobseeker"
-            ? "Sign Up as Job Seeker"
-            : "Sign Up as Company"}
-
-        </button>
-      </form>
-    </div>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign Up
+          </Button>
+        </Box>
+      </Box>
+    </Container>
   );
 };
 
